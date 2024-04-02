@@ -1,0 +1,56 @@
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: #F2F2F2;
+}
+
+/* 覆盖uno.css全局样式 */
+.container {
+  max-width: 100%;
+
+  @media (min-width: 1280px) {
+    max-width: 100%;
+  }
+
+  @media (min-width: 1536px) {
+    max-width: 100%;
+  }
+
+  @media (min-width: 1024px) {
+    max-width: 100%;
+  }
+}
+
+html.dark {
+  background: #121212;
+  color-scheme: dark;
+}
+
+#nprogress {
+  pointer-events: none;
+}
+
+#nprogress .bar {
+  background: rgb(13, 148, 136);
+  opacity: 0.75;
+  position: fixed;
+  z-index: 1031;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+}
+
+.i-icon svg {
+  display: block;
+}
+
+.page-container {
+  position: relative;
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
