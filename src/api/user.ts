@@ -1,27 +1,33 @@
 import request from '~/utils/request'
 
 export const login = (params: any) => {
-  return request('/api/web/uc/login-h5', {
+  return request('/api/user/login', {
     method: 'post',
     data: params,
   })
 }
 
+export const getCaptcha = () => {
+  return request('/api/user/captcha', {
+    method: 'post',
+  })
+}
+
 export const getInfo = () => {
-  return request('/api/web/uc/current', {
+  return request('/api/user/current', {
     method: 'get',
   })
 }
 
 export const logout = (params: any) => {
-  return request('/api/web/uc/logout', {
+  return request('/api/user/logout', {
     method: 'post',
     data: params,
   })
 }
 
 export const getUserList = (params: any) => {
-  return request('/api/web/uc/paging', {
+  return request('/api/user/list', {
     method: 'post',
     data: params,
   })

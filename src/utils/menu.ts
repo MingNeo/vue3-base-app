@@ -1,6 +1,6 @@
 import { pathToRegexp } from 'path-to-regexp'
+import { routes } from 'vue-router/auto-routes'
 import { generateMenuByAuth } from '~/config'
-import routes from '~pages'
 
 export interface MenuItem {
   key: string

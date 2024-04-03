@@ -3,18 +3,18 @@ import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { setupLayouts } from 'virtual:generated-layouts'
 import { createHead } from '@vueuse/head'
+import { routes } from 'vue-router/auto-routes'
 import App from './App.vue'
 import type { UserModule } from './types'
-import generatedRoutes from '~pages'
 import { menus } from '~/config/menus'
 
 // tailwind reset可能会使样式错乱，所以去除掉，如需使用可自行引入并处理兼容
-import '@unocss/reset/tailwind.css'
+// import '@unocss/reset/tailwind.css'
 
 import './styles/main.scss'
 import 'uno.css'
 
-const routes = setupLayouts(generatedRoutes)
+const routeList = setupLayouts(routes)
 
 // vite-ssg, 如需使用可手工开启
 // https://github.com/antfu/vite-ssg
@@ -33,7 +33,7 @@ const app = createApp(App)
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes,
+  routes: routeList,
 })
 app.use(router)
 

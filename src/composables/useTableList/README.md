@@ -27,7 +27,7 @@ const {
       ref="searchFormRef"
       :model="searchState"
       name="advanced_search"
-      class="ant-advanced-search-form"
+      class="search-form"
       @finish="search.submit"
     >
       <el-form-item name="name" label="姓名">

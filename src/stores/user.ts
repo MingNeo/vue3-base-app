@@ -21,6 +21,10 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
+  const getCaptcha = async () => {
+    return await api.getCaptcha()
+  }
+
   // 获取用户信息
   const getInfo = debounce(async () => {
     const permissionStore = usePermissionStore()
@@ -71,6 +75,7 @@ export const useUserStore = defineStore('user', () => {
     login,
     getInfo,
     logout,
+    getCaptcha,
     updateUserInfo,
   }
 })

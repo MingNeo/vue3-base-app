@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const router = useRouter()
-const goback = () => router.push('/')
+const goback = () => router.back()
 </script>
 
 <template>

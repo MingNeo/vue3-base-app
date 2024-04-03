@@ -78,7 +78,7 @@ export function createRequest(config: CreateAxiosDefaults<any>) {
       return Promise.reject(res)
 
     const { data, config } = res as { data: any; config: RequestConfig }
-    const responseType = config.responseType || 'json'
+    const { responseType = 'json', formatData = true } = config
 
     // 如果服务端统一http响应码都是200，返回数据中包含错误码等信息，则单独处理
     // 请求中手工指定checkResultSuccess为false时，不进行错误处理。用于部分接口比如图片上传, 返回接口里没有success字段
@@ -98,7 +98,7 @@ export function createRequest(config: CreateAxiosDefaults<any>) {
 
     // 对json格式数据进行预处理，请求中手工指定formatData为false时不处理data返回值。
     // TODO: 根据后端接口实际情况自行处理
-    if (responseType !== 'json' || (config?.formatData && isObject(data) && data !== null))
+    if (responseType === 'json' && (formatData && isObject(data) && data !== null))
       return (data as any).data ?? (data as any)?.result ?? (data as any).res
 
     return data

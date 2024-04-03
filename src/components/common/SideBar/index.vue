@@ -13,7 +13,7 @@ const sideMenuStore = useSideMenuStore()
         v-bind="$attrs"
       >
         <template v-for="(item) in sideMenuStore.showMenus">
-          <el-sub-menu v-if="item.children" :key="`sub-menu-${item.key}`">
+          <el-sub-menu v-if="item.children" :key="`sub-menu-${item.key}`" :index="item.key">
             <template #title>
               {{ item.title }}
             </template>

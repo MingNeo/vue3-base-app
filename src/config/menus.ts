@@ -11,7 +11,12 @@ export const menus = [
   },
   {
     key: 'userList',
-    title: '用户管理',
-    path: '/userlist',
+    title: '404',
+    path: '/xxx',
+  },
+  {
+    key: 'formBuilderDemo',
+    title: 'formBuilder',
+    path: '/formBuilderDemo',
   },
 ]

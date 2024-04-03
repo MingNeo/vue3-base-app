@@ -1,8 +1,7 @@
 import path from 'path'
 import { defineConfig } from 'vite'
-// import Preview from 'vite-plugin-vue-component-preview'
 import Vue from '@vitejs/plugin-vue'
-import Pages from 'vite-plugin-pages'
+import VueRouter from 'unplugin-vue-router/vite'
 // import generateSitemap from 'vite-ssg-sitemap'
 import Layouts from 'vite-plugin-vue-layouts'
 import Components from 'unplugin-vue-components/vite'
@@ -11,10 +10,7 @@ import type { ComponentResolver } from 'unplugin-vue-components/types'
 import AutoImport from 'unplugin-auto-import/vite'
 import VueI18n from '@intlify/unplugin-vue-i18n/vite'
 import { viteMockServe } from 'vite-plugin-mock'
-import Inspect from 'vite-plugin-inspect'
-// import Inspector from 'vite-plugin-vue-inspector'
 import Unocss from 'unocss/vite'
-import VueMacros from 'unplugin-vue-macros/vite'
 import devServerConfig from './dev.server.config'
 
 function IconParkResolver(): ComponentResolver {
@@ -25,16 +21,6 @@ function IconParkResolver(): ComponentResolver {
         return { name: name.replace('IconPark', ''), from: '@icon-park/vue-next' }
       if (name.match(/^icon-park/))
         return { name: name.replace('icon-park-', ''), from: '@icon-park/vue-next' }
-    },
-  }
-}
-
-function SwiperResolver(): ComponentResolver {
-  return {
-    type: 'component',
-    resolve: (name: string) => {
-      if (name.match(/^Swiper/))
-        return { name, from: 'swiper/vue' }
     },
   }
 }
@@ -55,32 +41,14 @@ export default defineConfig(({ command }) => ({
   server: devServerConfig,
 
   plugins: [
-    // Preview(),
-
-    VueMacros({
-      plugins: {
-        vue: Vue({
-          include: [/\.vue$/, /\.md$/],
-          reactivityTransform: false, // 此实验性功能已被废弃，关闭 https://vuejs.org/guide/extras/reactivity-transform.html
-        }),
-      },
-      defineProps: false,
-      setupComponent: false,
-      setupSFC: false,
-      // singleDefine: false,
-    }),
-
-    // https://github.com/hannoeru/vite-plugin-pages
-    Pages({
-      extensions: ['vue'],
+    VueRouter({
       exclude: ['**/components/*.vue', '**/pages/**/children/**/*.vue', '**/_*.vue'],
-      extendRoute: (route) => {
-        // Redirect from '/' to '/manage'
-        // if (route.path === '/')
-        //   return { ...route, redirect: 'manage' }
-
-        return route
-      },
+      //   extendRoute: async (route) => {
+      //     // Redirect from '/' to '/manage'
+      //     // if (route.path === '/')
+      //     //   return { ...route, redirect: 'manage' }
+      //     return route
+      //   },
     }),
 
     // https://github.com/JohnCampionJr/vite-plugin-vue-layouts
@@ -107,7 +75,6 @@ export default defineConfig(({ command }) => ({
     }),
 
     // https://github.com/antfu/unplugin-vue-components
-    // 为防止后续接受项目同学混乱，仅自动加载必须组件库
     Components({
       resolvers: [ElementPlusResolver(), IconParkResolver()],
       extensions: ['vue'],
@@ -128,21 +95,13 @@ export default defineConfig(({ command }) => ({
       include: [path.resolve(__dirname, 'locales/**')],
     }),
 
-    // https://github.com/antfu/vite-plugin-inspect
-    // 访问 http://localhost:3333/__inspect/ 可看到注入
-    Inspect(),
-
-    // https://github.com/webfansplz/vite-plugin-vue-inspector
-    // Inspector({
-    //   toggleButtonVisibility: command === 'serve' ? 'always' : 'never',
-    // }),
-
     // https://github.com/vbenjs/vite-plugin-mock
     // 如需对接真实接口可把mock下接口改为/mock/api/xxx
     viteMockServe({
       mockPath: 'mock',
       localEnabled: command === 'serve',
     }),
+    Vue(),
   ],
 
   // https://github.com/vitest-dev/vitest
@@ -158,7 +117,7 @@ export default defineConfig(({ command }) => ({
   //   preprocessorOptions: {},
   // },
 
-  // vite-ssg这个包与antdv有冲突，会造成打包生产文件失败，如需使用可手工开启
+  // vite-ssg如需使用可手工开启
   // https://github.com/antfu/vite-ssg
   // ssgOptions: {
   //   script: 'async',
@@ -167,7 +126,6 @@ export default defineConfig(({ command }) => ({
   // },
 
   ssr: {
-    // TODO: workaround until they support native ESM
     noExternal: ['workbox-window', /vue-i18n/],
   },
 }))

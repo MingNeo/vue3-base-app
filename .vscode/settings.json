@@ -1,6 +1,5 @@
 {
   "cSpell.words": [
-    "Vitesse",
     "Vite",
     "unocss",
     "vitest",
@@ -26,7 +25,6 @@
   "files.associations": {
     "*.css": "css"
   },
-  "editor.formatOnSave": true,
-  "volar.inlayHints.eventArgumentInInlineHandlers": false,
-  "testing.automaticallyOpenPeekView": "never"
+  "editor.formatOnSave": false,
+  "testing.automaticallyOpenPeekView": "never",
 }

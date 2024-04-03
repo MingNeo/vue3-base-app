@@ -3,30 +3,21 @@
 
 ## 特性
 
-- ⚡️ [Vue 3](https://github.com/vuejs/core), [Vite](https://github.com/vitejs/vite), [pnpm](https://pnpm.io/), [esbuild](https://github.com/evanw/esbuild) - 就是快！
+- ⚡️ [Vue 3](https://github.com/vuejs/core), [Vite](https://github.com/vitejs/vite), [pnpm](https://pnpm.io/), [esbuild](https://github.com/evanw/esbuild)
 - 🗂 [基于文件的路由](./src/pages)
 - 📦 [组件自动化加载](./src/components)
 - 🍍 [使用 Pinia 的状态管理](https://pinia.vuejs.org)
 - 📑 [布局系统](./src/layouts)
 - 🎨 [UnoCSS](https://github.com/unocss/unocss) - 高性能且极具灵活性的即时原子化 CSS 引擎
-- 🌍 [I18n 国际化开箱即用](./locales)
-- 🔥 使用 [新的 `<script setup>` 语法](https://github.com/vuejs/rfcs/pull/227)
-- 📥 [API 自动加载](https://github.com/antfu/unplugin-auto-import) - 直接使用 Composition API 无需引入
+- 🌍 [I18n 国际化](./locales)
+- 📥 [API 自动加载](https://github.com/antfu/unplugin-auto-import) - Composition 等API 自动引入
 - 🖨 使用 [vite-ssg](https://github.com/antfu/vite-ssg) 进行服务端生成 (SSG), 需手工开启
-- 🦔 使用 [critters](https://github.com/GoogleChromeLabs/critters) 的生成关键 CSS
-- 🦾 TypeScript
 - ⚙️ 使用 [Vitest](https://github.com/vitest-dev/vitest) 进行单元测试, [Cypress](https://cypress.io/) 进行 E2E 测试
 - ⚙️ 使用 [Storybook](https://storybook.js.org/) 进行可视化调试与预览
 
 <br>
 
 ## 使用
-
-### 查看组件文档/事例
-```bash
-pnpm doc:dev
-```
-
 ### 开发
 
 推荐使用pnpm
@@ -83,7 +74,6 @@ template中使用<CommonHelloWord /> 或 <common-hello-word />
 
 src/pages目录下的vue文件将自动生成路由。
 该目录下的各页面目录内children、components下的文件将不会生成路由。
-有关更多详细信息，请查看[`vite-plugin-pages`](https://github.com/hannoeru/vite-plugin-pages)。
 
 ### 权限控制
 

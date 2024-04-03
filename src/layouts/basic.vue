@@ -3,7 +3,6 @@
 
 <template>
   <div class="flex flex-col basic-container">
-    <common-header />
     <div class="flex flex-1 overflow-hidden">
       <!-- 侧边栏 -->
       <div class="bg-gray-800">

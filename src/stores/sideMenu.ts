@@ -16,7 +16,7 @@ export const useSideMenuStore = defineStore('sideMenu', () => {
   const showMenus = computed(() => generateShowMenu(menus.value, permissionStore.checkHasAuth))
 
   watch(currrentRoute, (val: string) => {
-    const newSelectedKey = showMenus.value.reduce((prev: any[], cur: any) => ([...prev, cur, ...cur.children]), []).find(item => item.path === val)?.key
+    const newSelectedKey = showMenus.value.reduce((prev: any[], cur: any) => ([...prev, cur, ...(cur.children || [])]), []).find(item => item.path === val)?.key
     if (newSelectedKey)
       selectedKeys.value = [newSelectedKey]
   }, { deep: true, immediate: true })

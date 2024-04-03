@@ -65,13 +65,13 @@ const mockUserList = new Array(10).fill('').map((v, i) => ({
 
 export default [
   {
-    url: '/api/web/uc/login-h5',
+    url: '/api/user/login',
     timeout: 200,
     method: 'post',
     response: () => wrapperSuccess(mockLoginResult),
   },
   {
-    url: '/api/web/uc/current',
+    url: '/api/user/current',
     method: 'get',
     response: (request: any) => {
       const token = getRequestToken(request)
@@ -81,7 +81,7 @@ export default [
     },
   },
   {
-    url: '/api/web/uc/logout',
+    url: '/api/user/logout',
     timeout: 200,
     method: 'get',
     response: () => {
@@ -89,7 +89,7 @@ export default [
     },
   },
   {
-    url: '/api/web/uc/paging',
+    url: '/api/user/list',
     timeout: 200,
     method: 'post',
     response: ({ body }: any) => {

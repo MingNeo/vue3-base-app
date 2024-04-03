@@ -13,11 +13,4 @@ export const generateMenuByAuth = false
 // 是否开启未登录自动跳转登录页
 export const openRedirectLogin = true
 
-export const storageKeys = {
-  // 存储各个table所展示的列信息
-  TABLE_COLUMNS: 'TABLE_COLUMNS',
-  // 存储各个table列宽信息
-  TABLE_COLUMNS_WIDTH: 'TABLE_COLUMNS_WIDTH',
-}
-
 export const imageFormats = ['jpg', 'jpeg', 'png', 'bmp', 'gif', 'bmp', 'tiff', 'webp', 'heif']
