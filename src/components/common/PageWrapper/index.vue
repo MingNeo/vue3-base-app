@@ -1,7 +1,7 @@
 <script setup lang="ts">
-const { meta } = defineProps<{ meta?: any }>()
+const currentRoute = useRouter().currentRoute
 const permissionStore = usePermissionStore()
-const hasPermission = computed(() => permissionStore.checkHasAuth(meta))
+const hasPermission = computed(() => permissionStore.checkHasAuth(currentRoute.value.meta))
 </script>
 
 <template>

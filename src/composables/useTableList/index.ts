@@ -100,12 +100,8 @@ export default function useTableList(
     showTotal: (total: number, range: number[]) => `${range[0]} - ${range[1]} 条 共 ${total} 条`,
   }))
 
-  const onTableChange = (
-    page: { pageSize: number; current: number },
-    _filters: any,
-    sorter: any,
-  ) => {
-    fetchData({ sortBy: sorter.field, sortType: sorter.order }, { pageNo: page.current, pageSize: page.pageSize })
+  const onSortChange = ({ column, prop, order }: any) => {
+    fetchData({ sortBy: prop, order, column }, { pageNo: 1 })
   }
 
   // 如果操作失败后无需返回值、无需别的处理，可以使用此方法包裹简化处理
@@ -123,7 +119,7 @@ export default function useTableList(
     pagination,
     fetchData, // 默认请求方法使用debounce处理
     fetchDataSimple, // 不进行debounce处理
-    onTableChange,
+    onSortChange,
     wrapperAction,
     search: {
       submit: (params: any = {}) => {

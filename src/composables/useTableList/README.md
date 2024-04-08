@@ -15,10 +15,7 @@ const {
   loading,
   pagination,
   search: { submit, reset },
-} = useTableList(fetchData, {
-  form: formRef,
-  immediate: true,
-})
+} = useTableList(fetchData)
 </script>
 
 <template>
@@ -28,12 +25,11 @@ const {
       :model="searchState"
       name="advanced_search"
       class="search-form"
-      @finish="search.submit"
     >
       <el-form-item name="name" label="姓名">
         <el-input v-model:value="searchState.name" placeholder="placeholder" />
       </el-form-item>
-      <el-button type="primary" html-type="submit">
+      <el-button type="primary" html-type="submit" @click="() => submit()">
         搜索
       </el-button>
     </el-form>
@@ -57,7 +53,7 @@ const {
   pagination,
   searchData,
   search: { submit, reset },
-  onTableChange // 排序需要使用onTableChange
+  onSortChange // 排序需要使用onSortChange
 } = useTableList(fetchData)
 
 const searchFields = [/** ... */]
@@ -79,7 +75,8 @@ const columns = [
       :data-source="dataSource"
       :loading="loading"
       :pagination="pagination"
-      @change="onTableChange"
+      sortable="custom"
+      @sort-change="onSortChange"
     />
   </div>
 </template>
@@ -107,7 +104,7 @@ const columns = [
 | dataSource | computed<ListData[]> | 当前页表格数据源 |
 | fetchData | Function | 用于手工再触发刷新, 如需重置请求参数并请求可直接调用search.reset |
 | loading | boolean | 表示数据是否正在加载 |
-| onTableChange | (page: { pageSize: number; current: number; }, _filters: any, sorter: any) => void | 列表页change, 见antdv，通常只有在需要排序时需要用到 |
+| onSortChange | (page: { pageSize: number; current: number; }, _filters: any, sorter: any) => void | 列表页change, 见Element-plus，通常只有在需要排序时需要用到 |
 | pagination.current | number | 当前页码 |
 | pagination.pageSize | number | 每页显示的行数 |
 | pagination.total | number | 数据总数 |

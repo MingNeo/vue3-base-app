@@ -84,16 +84,16 @@ function getRulesForColumn(item: any) {
 
 function renderView(val: ValueType, field: FormItemsBuilderField, formState?: FormItemsBuilderFormState) {
   if (field.type === 'checkbox' || (field.type === 'select' && field.fieldProps?.mode === 'multiple'))
-    return Array.isArray(val) ? (field?.fieldProps?.options?.filter?.((v: any) => val.includes(v.value)).map((v: any) => v.label).join(', ') || '-无-') : '-无-'
+    return Array.isArray(val) ? (field?.fieldProps?.options?.filter?.((v: any) => val.includes(v.value)).map((v: any) => v.label).join(', ') || '') : ''
   if (['select', 'radio', 'checkbox'].includes(field.type || 'input'))
-    return field?.fieldProps?.options?.find?.((v: any) => v.value === val)?.label || val || '-无-'
+    return field?.fieldProps?.options?.find?.((v: any) => v.value === val)?.label || val || ''
   if (field.type === 'datePicker')
-    return val ? dayjs(val as DateType).format(field?.fieldProps?.valueFormat || 'YYYY-MM-DD') : '-无-'
+    return val ? dayjs(val as DateType).format(field?.fieldProps?.valueFormat || 'YYYY-MM-DD') : ''
   if (field.type === 'rangePicker')
-    return val ? (val as string[]).map(item => dayjs(item).format(field?.fieldProps?.valueFormat || 'YYYY-MM-DD')).join('至') : '-无-'
+    return val ? (val as string[]).map(item => dayjs(item).format(field?.fieldProps?.valueFormat || 'YYYY-MM-DD')).join('至') : ''
   if (field.type === 'cascader')
-    return val ? (val as string[]).join('；') : '-无-'
-  return val ?? '-无-'
+    return val ? (val as string[]).join('；') : ''
+  return val ?? ''
 }
 
 /**
@@ -119,31 +119,20 @@ function getFormFieldProps(item: FormItemsBuilderField, value: any, formState: F
   if (item.type === 'component' && item.valueKey)
     fieldProps[item.valueKey] = value
 
+  if (item.type === 'datePicker') {
+    switch (fieldProps.type) {
+      case 'datetimerange':
+      case 'daterange':
+        fieldProps.defaultTime = [new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 1, 1, 23, 59, 59)]
+        break
+    }
+  }
+
   return fieldProps
 }
 
 function getPlaceholder(type: string, label?: string) {
   return `${placeholderMap[type] || '请输入'}${label || ''}`
-}
-
-/**
- * 对rangePicker进行格式化，当formatType为day时自动处理成00:00:00 - 23:59:59
- */
-function formatRangeDateValue(date: any[], item: FormItemsBuilderField) {
-  const { valueFormat, showTime } = item.fieldProps || {}
-
-  if (date) {
-    return date.map((cur, idx) => {
-      if (!cur)
-        return ''
-      let result = dayjs(cur)
-      if (item.formatType === 'day' && !showTime)
-        result = idx === 0 ? result.startOf('day') : result.endOf('day')
-
-      return valueFormat ? result.format(valueFormat) : result.valueOf()
-    })
-  }
-  return undefined
 }
 </script>
 
@@ -164,27 +153,29 @@ function formatRangeDateValue(date: any[], item: FormItemsBuilderField) {
             v-on="item.on || {}"
           />
         </template>
-<el-form-item v-else :prop="getItemName(item.name, props.namePrefix)"
-  :label="(!item.labelExtra && !item.labelTip) ? item.label : undefined" :rules="getRulesForColumn(item)"
-  v-bind="item.itemProps">
-  <template v-if="item.labelExtra || item.labelTip" #label>
-  {{ item.label }}
-  <span v-if="item.labelExtra" class="form-item-label-extra">（{{ item.labelExtra }}）</span>
-  <el-tooltip v-if="item.labelTip" placement="top">
-    <template #title>
-    {{ item.labelTip }}
-    </template>
-    <CommonIcon type="bangzhuhelp-96444ckf" style="margin-left: 2px;" />
-  </el-tooltip>
-  </template>
-  <template v-if="(viewMode || item.viewMode) && item.type === 'component' && item.customRender">
+        <el-form-item
+          v-else :prop="getItemName(item.name, props.namePrefix)"
+          :label="(!item.labelExtra && !item.labelTip) ? item.label : undefined" :rules="getRulesForColumn(item)"
+          v-bind="item.itemProps"
+        >
+          <template v-if="item.labelExtra || item.labelTip" #label>
+            {{ item.label }}
+            <span v-if="item.labelExtra" class="form-item-label-extra">（{{ item.labelExtra }}）</span>
+            <el-tooltip v-if="item.labelTip" placement="top">
+              <template #title>
+                {{ item.labelTip }}
+              </template>
+              <CommonIcon type="bangzhuhelp-96444ckf" style="margin-left: 2px;" />
+            </el-tooltip>
+          </template>
+          <template v-if="(viewMode || item.viewMode) && item.type === 'component' && item.customRender">
             <slot name="fieldView" :field="item" :record="formState" :text="formState[item.name]">
               <div class="break-all">
                 {{ item.customRender(formState[item.name], item, formState) }}
               </div>
             </slot>
           </template>
-  <template v-else-if="(viewMode || item.viewMode) && item.type !== 'component'">
+          <template v-else-if="(viewMode || item.viewMode) && item.type !== 'component'">
             <slot name="fieldView" :field="item" :record="formState" :text="formState[item.name]">
               <div v-if="item.customRender" class="break-all">
                 {{ item.customRender(formState[item.name], item, formState) }}
@@ -198,12 +189,12 @@ function formatRangeDateValue(date: any[], item: FormItemsBuilderField) {
               </div>
             </slot>
           </template>
-  <template v-else-if="item.type === 'text'">
+          <template v-else-if="item.type === 'text'">
             <div class="break-all">
               {{ item.customRender ? item.customRender(formState[item.name], item, formState) : formState[item.name] }}
             </div>
           </template>
-  <template v-else-if="item.type === 'select'">
+          <template v-else-if="item.type === 'select'">
             <el-select
               :model-value="formState[item.name]" :placeholder="item.placeholder"
               v-bind="item.fieldProps"
@@ -216,13 +207,13 @@ function formatRangeDateValue(date: any[], item: FormItemsBuilderField) {
               />
             </el-select>
           </template>
-  <template v-else-if="item.type === 'rate'">
+          <template v-else-if="item.type === 'rate'">
             <el-rate
               :model-value="formState[item.name]" v-bind="item.fieldProps"
               @update:model-value="(val: any) => onFieldChange(item, val)" v-on="item.on || {}"
             />
           </template>
-  <template v-else-if="item.type === 'radio'">
+          <template v-else-if="item.type === 'radio'">
             <el-radio-group
               :model-value="formState[item.name]"
               v-bind="item.fieldProps"
@@ -233,7 +224,7 @@ function formatRangeDateValue(date: any[], item: FormItemsBuilderField) {
               </el-radio>
             </el-radio-group>
           </template>
-  <template v-else-if="item.type === 'checkbox'">
+          <template v-else-if="item.type === 'checkbox'">
             <el-checkbox-group
               :model-value="formState[item.name]"
               v-bind="item.fieldProps"
@@ -244,7 +235,7 @@ function formatRangeDateValue(date: any[], item: FormItemsBuilderField) {
               </el-checkbox>
             </el-checkbox-group>
           </template>
-  <template v-else-if="item.type === 'datePicker'">
+          <template v-else-if="item.type === 'datePicker'">
             <el-date-picker
               :model-value="formState[item.name] ? dayjs(formState[item.name]) : ''"
               :format="item.fieldProps?.format || 'YYYY-MM-DD'" :placeholder="item.placeholder"
@@ -252,56 +243,56 @@ function formatRangeDateValue(date: any[], item: FormItemsBuilderField) {
               @update:model-value="(value) => onFieldChange(item, value ? (item.fieldProps?.valueFormat ? dayjs(value).format(item.fieldProps?.valueFormat) : dayjs(value).valueOf()) : '')"
             />
           </template>
-  <template v-else-if="item.type === 'rangePicker'">
+          <template v-else-if="item.type === 'rangePicker'">
             <el-date-picker
               type="daterange"
               :model-value="formState[item.name] ? formState[item.name].map((v: any) => dayjs(v)) : []"
               :format="item.fieldProps?.format || 'YYYY-MM-DD'"
               v-bind="item.fieldProps"
-              @update:model-value="(value) => onFieldChange(item, formatRangeDateValue(value, item))"
+              @update:model-value="(value) => onFieldChange(item, value)"
             />
           </template>
-  <template v-else-if="item.type === 'timePicker'">
+          <template v-else-if="item.type === 'timePicker'">
             <el-time-picker
               :model-value="formState[item.name]" :placeholder="item.placeholder"
               v-bind="item.fieldProps"
               @update:model-value="(val) => onFieldChange(item, val)" v-on="item.on || {}"
             />
           </template>
-  <template v-else-if="item.type === 'cascader'">
+          <template v-else-if="item.type === 'cascader'">
             <el-cascader
               :model-value="formState[item.name]" :placeholder="item.placeholder"
               v-bind="item.fieldProps"
               @update:model-value="(val) => onFieldChange(item, val)" v-on="item.on || {}"
             />
           </template>
-  <template v-else-if="item.type === 'slider'">
+          <template v-else-if="item.type === 'slider'">
             <el-slider
               :model-value="formState[item.name]" v-bind="item.fieldProps"
               @update:model-value="(val) => onFieldChange(item, val)" v-on="item.on || {}"
             />
           </template>
-  <template v-else-if="item.type === 'switch'">
+          <template v-else-if="item.type === 'switch'">
             <el-switch
               v-model="formState[item.name]"
               v-bind="item.fieldProps" v-on="item.on || {}"
             />
           </template>
-  <template v-else-if="item.type === 'treeSelect'">
+          <template v-else-if="item.type === 'treeSelect'">
             <el-tree-select
               :model-value="formState[item.name]" :placeholder="item.placeholder"
               v-bind="item.fieldProps"
               @change="(val: any, ...args: any[]) => onFieldChange(item, val, ...args)" v-on="item.on || {}"
             />
           </template>
-  <template v-else-if="item.type === 'number'">
+          <template v-else-if="item.type === 'number'">
             <el-input-number
               :model-value="formState[item.name]" :placeholder="item.placeholder"
               v-bind="item.fieldProps"
               @update:model-value="(val) => onFieldChange(item, val)" v-on="item.on || {}"
             />
           </template>
-  <template v-else-if="item.type === 'textarea'">
+          <template v-else-if="item.type === 'textarea'">
             <el-input
               type="textarea"
               :model-value="formState[item.name]" :placeholder="item.placeholder"
@@ -309,14 +300,14 @@ function formatRangeDateValue(date: any[], item: FormItemsBuilderField) {
               @update:model-value="(val) => onFieldChange(item, val)" v-on="item.on || {}"
             />
           </template>
-  <template v-else-if="item.type === 'upload'">
+          <template v-else-if="item.type === 'upload'">
             <common-upload
               :files="formState[item.name]"
               v-bind="item.fieldProps"
               @update:files="(val) => onFieldChange(item, val)" v-on="item.on || {}"
             />
           </template>
-  <template v-else-if="item.type === 'component'">
+          <template v-else-if="item.type === 'component'">
             <component
               :is="item.component" :model-value="formState[item.name]"
               :placeholder="item.placeholder"
@@ -328,49 +319,48 @@ function formatRangeDateValue(date: any[], item: FormItemsBuilderField) {
             />
           </template>
 
-  <template v-else>
+          <template v-else>
             <el-input
               :model-value="formState[item.name]" :placeholder="getPlaceholder('input', item.label)"
               v-bind="item.fieldProps"
               @update:model-value="(val) => onFieldChange(item, val)" v-on="item.on || {}"
             />
           </template>
-</el-form-item>
-</el-col>
-</el-row>
-</div>
+        </el-form-item>
+      </el-col>
+    </el-row>
+  </div>
 </template>
 
 <style lang="scss" scoped>
-.clear-btn {
-  margin: 0 8px
-}
-
-.base-form-items-builder {
-  &.view-mode {
-    padding-bottom: 8px;
+  .clear-btn {
+    margin: 0 8px
   }
 
-  .form-item-label-extra {
-    color: #B2B2B2;
+  .base-form-items-builder {
+    &.view-mode {
+      padding-bottom: 8px;
+    }
+
+    .form-item-label-extra {
+      color: #B2B2B2;
+    }
   }
-}
 </style>
 
 <style lang="scss">
-.base-form-items-builder {
-  &.view-mode {
-    .el-form-item {
-      margin-bottom: 18px;
+  .base-form-items-builder {
+    &.view-mode {
+      .el-form-item {
+        margin-bottom: 18px;
+      }
+    }
+
+    .el-form-item__content {
+      .el-picker,
+      .el-input-number {
+        width: 100%;
+      }
     }
   }
-
-  .el-form-item__content {
-
-    .el-picker,
-    .el-input-number {
-      width: 100%;
-    }
-  }
-}
 </style>

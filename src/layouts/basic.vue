@@ -9,7 +9,7 @@
         <CommonSideBar />
       </div>
       <!-- 主要内容区 -->
-      <common-page-wrapper :meta="useRouter().currentRoute.value.meta">
+      <common-page-wrapper>
         <RouterView />
       </common-page-wrapper>
     </div>

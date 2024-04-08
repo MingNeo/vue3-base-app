@@ -232,8 +232,7 @@ const fields = [{
   onChange: ({ value, formState }) => {
     formState.value.enum = value
   },
-},
-{
+}, {
   label: '枚举值',
   name: 'enum',
   type: 'component',
@@ -269,18 +268,16 @@ const fields = [{
 | label | String | 表单元素的标签文本 |
 | type | String | 表单元素的类型。现在支持`input`, `select`, `radio`, `checkbox`, `datePicker`, `rate`, `rangePicker`, `timePicker`, `cascader`, `slider`, `switch`, `treeSelect`, `number`, `text` 及 `component`. |
 | required | Boolean | 是否为必填项 |
-| rules | Rule[] | 自定义验证规则，数组中包含每条规则的对象。如未指定，默认值为生成的基本验证规则。见Antdv Form |
-| fieldProps | `Record<string, any>` | Field 组件自身的配置项如`options`等,见antdv 各Form Field |
-| formItemProps | `Record<string, any>` | FormItem的配置, 见antdv Form.Item |
+| rules | Rule[] | 自定义验证规则，数组中包含每条规则的对象。如未指定，默认值为生成的基本验证规则。见Element-plus Form |
+| fieldProps | `Record<string, any>` | Field 组件自身的配置项如`options`等,见Element-plus 各Form Field |
+| formItemProps | `Record<string, any>` | FormItem的配置, 见Element-plus Form.Item |
 | hidden | Boolean \| (formState: FormState) => Boolean | 是否隐藏，可直接配置变量或通过函数处理 |
 | on | `Record<string, (...args: any[]) => void>` | field事件 |
 | customRender | `(text: any, item: Field, formState: Record<string, any>) => string` | 自定义渲染文本，仅viewMode模式下或text field可用。复杂情况下请使用component类型并自定义Field |
 | valueKey | string | 指定value字段名，用于component类型，一般field是'value', 但如嵌入table等特殊组件时，可以指定为'dataSource'等 |
-| row | Object | 见antdv Row组件 |
-| col | Object | 见antdv Col组件, 如果设置了col，则不遵循全局的column，由该field配置控制field显示的宽度 |
+| row | Object | 见Element-plus Row组件 |
+| col | Object | 见Element-plus Col组件, 如果设置了col，则不遵循全局的column，由该field配置控制field显示的宽度 |
 | col.span | number | 栅格占位格数, 总栈格数24，如默认三列的表单中，希望单个field占两列，则设置{ col: { span: 16 } } |
-| col.flex | string | flex 布局填充 |
-| formatType | 'day' | 仅rangePicker下生效，为空时默认处理，设置为day时，自动将时间区间处理为所选时间的00:00:00 - 23:59:59 |
 
 #### 自定义事件：
 
