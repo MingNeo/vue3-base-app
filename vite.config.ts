@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'node:path'
 import { defineConfig } from 'vite'
 import Vue from '@vitejs/plugin-vue'
 import VueRouter from 'unplugin-vue-router/vite'
@@ -29,12 +29,6 @@ export default defineConfig(({ command }) => ({
   resolve: {
     alias: {
       '~/': `${path.resolve(__dirname, 'src')}/`,
-    },
-  },
-
-  define: {
-    'process.env': {
-      BASE_API_URL: '',
     },
   },
 
@@ -98,7 +92,7 @@ export default defineConfig(({ command }) => ({
     // 如需对接真实接口可把mock下接口改为/mock/api/xxx
     viteMockServe({
       mockPath: 'mock',
-      localEnabled: command === 'serve',
+      enable: command === 'serve',
     }),
     Vue(),
   ],

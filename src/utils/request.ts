@@ -10,7 +10,7 @@ interface RequestConfig extends InternalAxiosRequestConfig {
   quiet?: boolean
 }
 
-const baseUrl = process.env.BASE_API_URL || ''
+const baseUrl = import.meta.env.BASE_API_URL || ''
 
 // response异常拦截处理器
 function responseErrorHandler(error: any) {
@@ -34,7 +34,7 @@ function responseErrorHandler(error: any) {
 }
 
 // request异常拦截处理器
-const errorHandler = (error: any) => {
+function errorHandler(error: any) {
   // response 报错处理
   if (error.response)
     return responseErrorHandler(error)
@@ -77,7 +77,7 @@ export function createRequest(config: CreateAxiosDefaults<any>) {
     if (status !== 200)
       return Promise.reject(res)
 
-    const { data, config } = res as { data: any; config: RequestConfig }
+    const { data, config } = res as { data: any, config: RequestConfig }
     const { responseType = 'json', formatData = true } = config
 
     // 如果服务端统一http响应码都是200，返回数据中包含错误码等信息，则单独处理

@@ -6,7 +6,7 @@
 ## 使用方法
 ```vue
 <script lang="ts" setup>
-import StatusText from '@/components/StatusText.vue'
+import StatusText from '~/components/StatusText.vue'
 
 const statusConfig = reactive({
   ready: {

@@ -2,7 +2,7 @@ import type { UserModule } from '~/types'
 import { whiteList } from '~/config/permission'
 import { usePermissionStore } from '~/stores/permission'
 import { useUserStore } from '~/stores/user'
-import { openRedirectLogin, saveLoginToken } from '~/config'
+import { DISABLED_PERMISSSION, openRedirectLogin, saveLoginToken } from '~/config'
 import localAccessToken from '~/utils/accessToken'
 
 declare module 'vue' {
@@ -15,7 +15,7 @@ declare module 'vue' {
 const loginPath = '/login'
 
 export const install: UserModule = ({ isClient, router, app }) => {
-  if (!isClient || process.env.DISABLED_PERMISSSION)
+  if (!isClient || DISABLED_PERMISSSION)
     return
 
   const redirectUrl = ref<string>()
