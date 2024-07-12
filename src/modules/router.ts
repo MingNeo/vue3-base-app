@@ -1,4 +1,4 @@
-import type { UserModule } from '~/types'
+import type { UserModule } from '@/types'
 
 export const install: UserModule = ({ isClient, router }) => {
   if (!isClient)
@@ -11,9 +11,9 @@ export const install: UserModule = ({ isClient, router }) => {
     else
       document.title = ''
 
-    const { setSelectedKeysByRoute } = useSideMenuStore()
+    const { setselectedKeyByRoute } = useSideMenuStore()
 
-    setSelectedKeysByRoute(to)
+    setselectedKeyByRoute(to)
 
     next()
   })

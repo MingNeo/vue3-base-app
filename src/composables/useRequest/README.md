@@ -51,7 +51,7 @@ const { data, execute, isLoading } = useRequest(fetchFn)
 <script setup>
 const { execute, isLoading } = useRequest(fetchFn)
 
-execute().then(result => console.log(result))
+execute().then((result) => {})
 </script>
 ```
 
@@ -60,7 +60,7 @@ execute().then(result => console.log(result))
 <script setup>
 const { then } = useRequest(fetchFn)
 
-then(result => console.log(result), error => console.log(error))
+then((result) => {}, error => console.log(error))
 </script>
 ```
 ## API
@@ -83,5 +83,3 @@ then(result => console.log(result), error => console.log(error))
 | execute | 手动触发请求的函数 | `(...args: any) => PromiseLike<UseRequestReturn<T>>` |
 | then | 请求加载后回调 | `(onFulfilled, onRejected) => PromiseLike<UseRequestReturn<T>>` |
 | cancel | 中断请求 | `() => void` |
-
-

@@ -11,7 +11,7 @@ const route = useRoute()
 
 const userStore = useUserStore()
 
-const handleSubmitSuccess = async () => {
+async function handleSubmitSuccess() {
   await userStore.getInfo()
   const redirect = ['404', '/403'].includes(route.query.redirect) ? '' : route.query.redirect
   router.push(redirect || '/')
@@ -20,8 +20,8 @@ const handleSubmitSuccess = async () => {
 
 <template>
   <!-- 主要内容区 -->
-  <div class="w-100vw h-100vh p-8 flex relative page">
-    <div class="w-400px shadow p-40px b-rd-10px bg-white content-wrapper">
+  <div class="w-[100vw] h-[100vh] p-5 flex relative page">
+    <div class="absolute right-20 top-[50%] w-100 shadow p-10 rounded-[10px] bg-white content-wrapper">
       <QuickLogin @success="handleSubmitSuccess" />
     </div>
   </div>
@@ -33,9 +33,6 @@ const handleSubmitSuccess = async () => {
 }
 
 .content-wrapper {
-  position: absolute;
-  right: 80px;
-  top: 50%;
   transform: translateY(-50%);
 }
 </style>

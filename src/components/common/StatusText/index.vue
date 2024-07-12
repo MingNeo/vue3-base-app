@@ -6,29 +6,10 @@ const { status, config } = defineProps<{
 </script>
 
 <template>
-  <div class="status-text">
-    <span class="dot" :style="{ backgroundColor: config[status]?.color }" />
-    <span class="text">
+  <div class="status-text flex items-center">
+    <span class="dot w-2 h-2 rounded-[50%] mr-1" :style="{ backgroundColor: config[status]?.color }" />
+    <span class="text text-[14px] color-[#333]">
       <slot>{{ config[status]?.text }}</slot>
     </span>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.status-text {
-  display: flex;
-  align-items: center;
-
-  .dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    margin-right: 4px;
-  }
-
-  .text {
-    font-size: 14px;
-    color: #333;
-  }
-}
-</style>

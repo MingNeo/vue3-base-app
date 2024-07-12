@@ -8,7 +8,7 @@ const props = withDefaults(defineProps<{
 
 const emit = defineEmits(['cancel'])
 
-const handleCancel = () => {
+function handleCancel() {
   emit('cancel')
 }
 </script>

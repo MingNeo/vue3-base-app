@@ -1,4 +1,4 @@
-import { usePermissionStore } from '~/stores/permission'
+import { usePermissionStore } from '@/stores/permission'
 
 export default function useAuth() {
   const permissionStore = usePermissionStore()

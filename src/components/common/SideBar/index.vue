@@ -3,13 +3,13 @@ const sideMenuStore = useSideMenuStore()
 </script>
 
 <template>
-  <div class="flex flex-col h-100%">
-    <div class="flex-1 overflow-y-auto">
+  <div class="bg-white w-[220px] flex flex-col h-[100%]">
+    <div class="flex-1 overflow-y-auto w-full">
       <el-menu
-        v-model:openKeys="sideMenuStore.openKeys"
-        v-model:selectedKeys="sideMenuStore.selectedKeys"
-        theme="dark"
-        :inline-collapsed="sideMenuStore.collapsed"
+        :default-active="sideMenuStore.selectedKey"
+        :default-openeds="sideMenuStore.openKeys"
+        class="w-full h-full"
+        :collapse="sideMenuStore.collapsed"
         v-bind="$attrs"
       >
         <template v-for="(item) in sideMenuStore.showMenus">

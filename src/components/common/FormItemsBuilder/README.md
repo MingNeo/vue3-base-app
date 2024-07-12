@@ -19,7 +19,7 @@ meta:
 ## 使用方法
 
 基础使用
-FormItemsBuilder只生成fields，需自己套用a-form
+FormItemsBuilder只生成fields，需自己套用el-form
 ```html
 <script lang="ts" setup>
 const data = ref({
@@ -64,8 +64,8 @@ const fields = ref([
 FormItemsBuilder只生成fields，因此具有极大的灵活性。可以生成任意数量的fields，并自由组合。
 ```html
 <script setup>
-import FormItemsBuilder from '~/components/common/FormItemsBuilder/index.vue'
-import CountrySelectorField from '~/components/common/FormItemsBuilder/demos/CountrySelectorField.vue'
+import FormItemsBuilder from '@/components/common/FormItemsBuilder/index.vue'
+import CountrySelectorField from '@/components/common/FormItemsBuilder/demos/CountrySelectorField.vue'
 
 const data = ref({
   name: 'klose',
@@ -111,8 +111,8 @@ const fields2 = ref([{
 为了让form能正常区分多行数据，正确进行校验，需要配置name-prefix。
 ```html
 <script setup>
-import FormItemsBuilder from '~/components/common/FormItemsBuilder/index.vue'
-import CountrySelectorField from '~/components/common/FormItemsBuilder/demos/CountrySelectorField.vue'
+import FormItemsBuilder from '@/components/common/FormItemsBuilder/index.vue'
+import CountrySelectorField from '@/components/common/FormItemsBuilder/demos/CountrySelectorField.vue'
 
 const data = ref({
   users: [{
@@ -149,7 +149,7 @@ const fields2 = ref([{
     <FormItemsBuilder v-model="data.users[0]" :name-prefix="['users', 0]" :column="3" :fields="fields" />
     <h3>哈哈哈哈哈哈</h3>
     <FormItemsBuilder v-model="data.users[1]" :name-prefix="['users', 1]" :column="3" :fields="fields" />
-    <el-button type="primary" html-type="submit">
+    <el-button type="primary" @click="submit">
       submit
     </el-button>
   </el-form>

@@ -1,5 +1,5 @@
 import { createPinia } from 'pinia'
-import { type UserModule } from '~/types'
+import type { UserModule } from '@/types'
 
 // https://pinia.vuejs.org/
 export const install: UserModule = ({ app }) => {

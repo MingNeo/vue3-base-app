@@ -39,8 +39,8 @@ export interface FormItemsBuilderField {
   on?: Record<string, any>
   hidden?: boolean | ((formState: FormItemsBuilderFormState) => boolean)
   component?: any
-  col?: { span?: number; offset?: number; flex?: number; style?: any }
-  onChange?: (info: { value: any; formState: Ref<FormItemsBuilderFormState>; originValue: any }, ...args: any[]) => void
+  col?: { span?: number, offset?: number, flex?: number, style?: any }
+  onChange?: (info: { value: any, formState: Ref<FormItemsBuilderFormState>, originValue: any }, ...args: any[]) => void
   formatPropValue?: (value: any, formState: Ref<FormItemsBuilderFormState>) => any
   customRender?: (value: any, field: FormItemsBuilderField, formState: FormItemsBuilderFormState) => string
   valueKey?: string

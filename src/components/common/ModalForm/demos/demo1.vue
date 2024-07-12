@@ -27,10 +27,6 @@ const formData = reactive({
   address: '',
 })
 
-function handleCancel() {
-  showModal.value = false
-}
-
 function handleSubmit(value: any) {
   // eslint-disable-next-line no-console
   console.log(value)
@@ -43,11 +39,10 @@ function handleSubmit(value: any) {
     创建用户
   </el-button>
   <common-modal-form
-    v-model:visible="showModal"
+    v-model="showModal"
     title="创建用户"
     :fields="fields"
     :default-value="formData"
-    @update:visible="handleCancel"
     @ok="handleSubmit"
   />
 </template>

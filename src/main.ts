@@ -4,15 +4,17 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { setupLayouts } from 'virtual:generated-layouts'
 import { createHead } from '@vueuse/head'
 import { routes } from 'vue-router/auto-routes'
+import { addCollection } from '@iconify/vue'
 import App from './App.vue'
 import type { UserModule } from './types'
-import { menus } from '~/config/menus'
+import iconSet from '@/assets/iconify.json'
+import { menus } from '@/config/menus'
 
-// tailwind reset可能会使样式错乱，所以去除掉，如需使用可自行引入并处理兼容
-// import '@unocss/reset/tailwind.css'
-
+import '@unocss/reset/tailwind.css'
 import './styles/main.scss'
 import 'uno.css'
+
+addCollection(iconSet) // 本地图标库
 
 const routeList = setupLayouts(routes)
 

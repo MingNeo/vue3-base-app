@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 const preview = reactive({ visible: false, url: '' })
 
-const handlePreview = (file: any) => {
+function handlePreview(file: any) {
   if (isImageUrl(file)) {
     preview.url = file.url
     preview.visible = true

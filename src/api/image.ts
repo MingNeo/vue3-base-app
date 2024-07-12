@@ -1,6 +1,6 @@
-import request from '~/utils/request'
+import request from '@/utils/request'
 
-export const upload = (file: File) => {
+export function upload(file: File) {
   const formData = new FormData()
   formData.append('file', file)
   return request('/api/web/image/upload', {
@@ -9,21 +9,21 @@ export const upload = (file: File) => {
   })
 }
 
-export const getImageList = (params: any) => {
+export function getImageList(params: any) {
   return request('/api/web/image/list', {
     method: 'post',
     data: params,
   })
 }
 
-export const addImage = (params: any) => {
+export function addImage(params: any) {
   return request('/api/web/image/add', {
     method: 'post',
     data: params,
   })
 }
 
-export const deleteImage = (params: any) => {
+export function deleteImage(params: any) {
   return request('/api/web/image/delete', {
     method: 'post',
     data: params,

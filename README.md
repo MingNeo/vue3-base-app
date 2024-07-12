@@ -44,7 +44,7 @@ pnpm build
 
 ### 路径别名
 
-`~/`被别名为`./src/`文件夹。
+`@/`被别名为`./src/`文件夹。
 
 ### 自动import
 
@@ -108,22 +108,15 @@ hasAuth('demoList:del')
 ```
 
 ### 图标
-
-使用IconPark官方图标：直接使用IconPark开头跟上对应图标，无需手工引入
-如使用buy图标
-
+使用 [@iconify/vue](https://iconify.design/docs/icon-components/vue/)
 ```vue
-<IconParkBuy />
-
-<icon-park-buy />
+<icon icon="icon-park-outline:back" />
 ```
 
-使用项目图标
+如使用自定义图标，可在src/assets/iconify.json中配置。
+如上传至iconfont，并配合(tampermonkey-iconfont-iconify油猴插件)[https://github.com/yee94/tampermonkey-iconfont-iconify]插件直接下载iconify.json文件覆盖即可。
 
 ```vue
-<common-icon type="arrow-left" size="16" />
-```
-
 ### mock
 
 mock目录下的文件将自动生成mock，当本地开发且未转发时可自动使用mock

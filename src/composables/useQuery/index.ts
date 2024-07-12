@@ -10,7 +10,6 @@ const defaultNumberKeys = ['pageSize', 'pageNo']
 
 /**
  * query 的改动暂不支持 query.key = value 这种形式，请使用 query = { key: value } 或者 query = { ...query, key: value } 这种形式
- * @returns
  */
 export default function useQuery({ defaultQuery = {}, arrayKeys = [], numberKeys = [] }: IParams = {}) {
   const router = useRouter()

@@ -1,7 +1,7 @@
 <script setup>
-import FormItemsBuilder from '~/components/common/FormItemsBuilder/index.vue'
-import CountrySelectorField from '~/components/common/FormItemsBuilder/demos/CountrySelectorField.vue'
-import useSteps from '~/composables/useSteps'
+import FormItemsBuilder from '@/components/common/FormItemsBuilder/index.vue'
+import CountrySelectorField from '@/components/common/FormItemsBuilder/demos/CountrySelectorField.vue'
+import useSteps from '@/composables/useSteps'
 
 const formRef = ref()
 
@@ -47,9 +47,9 @@ const fields3 = ref([{
   component: CountrySelectorField,
 }])
 
-const { steps, currentKey: activeKey, next, prev, isBefore, isAfter } = useSteps(new Array(3).fill('').map((v, i) => ({ title: `第${i}步`, value: i })), 0)
+const { steps, currentKey: activeKey, next, prev, isBefore, isAfter } = useSteps(Array.from({ length: 3 }).fill('').map((v, i) => ({ title: `第${i}步`, value: i })), 0)
 
-const goToNext = async () => {
+async function goToNext() {
   if (activeKey.value === 0) {
     const result = await formRef.value.validateField(fields1.value.map(v => v.name), valid => valid)
 
@@ -60,7 +60,7 @@ const goToNext = async () => {
   next()
 }
 
-const test = (...args) => {
+function test(...args) {
   // eslint-disable-next-line no-console
   console.log('test', args)
 }
@@ -76,13 +76,13 @@ const test = (...args) => {
       <el-step v-for="item in steps" :key="item.value" :title="item.title" />
     </el-steps>
 
-    <div class="p-20px">
+    <div class="p-[20px]">
       <el-form ref="formRef" :model="data" @validate="test">
         <FormItemsBuilder v-if="activeKey === 0" v-model="data" :column="2" :fields="fields1" />
         <FormItemsBuilder v-if="activeKey === 1" v-model="data" :column="2" :fields="fields2" />
         <FormItemsBuilder v-if="activeKey === 2" v-model="data" :column="2" :fields="fields3" />
-        <div class="m-t-20px text-right">
-          <el-button v-if="isBefore" class="m-r-8px" @click="prev">
+        <div class="mt-[20px] text-right">
+          <el-button v-if="isBefore" class="mr-[8px]" @click="prev">
             上一步
           </el-button>
           <el-button v-if="isAfter" type="primary" @click="goToNext">

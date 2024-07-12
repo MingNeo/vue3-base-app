@@ -6,7 +6,7 @@
 需要用到searchFormRef及searchState，searchState也可自己定义，关联form model即可，无需传给该hook
 ``` html
 <script setup>
-import useTableList from '~/composables/useTableList'
+import useTableList from '@/composables/useTableList'
 
 const {
   searchFormRef,
@@ -45,7 +45,7 @@ const {
 #### 排序
 ```vue
 <script setup>
-import useTableList from '~/composables/useTableList'
+import useTableList from '@/composables/useTableList'
 
 const {
   dataSource,

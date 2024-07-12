@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
-import FormItemsBuilder from '~/components/common/FormItemsBuilder/index.vue'
-import FormItemsBuilderDemo1 from '~/components/common/FormItemsBuilder/demos/demo1.vue'
-import FormItemsBuilderDemo2 from '~/components/common/FormItemsBuilder/demos/demo2.vue'
-import FormItemsBuilderDemo3 from '~/components/common/FormItemsBuilder/demos/demo3.vue'
-import FormItemsBuilderDemo4 from '~/components/common/FormItemsBuilder/demos/demo4.vue'
-// import * as readme from '~/components/common/FormItemsBuilder/README.md?raw'
+import FormItemsBuilder from '@/components/common/FormItemsBuilder/index.vue'
+import FormItemsBuilderDemo1 from '@/components/common/FormItemsBuilder/demos/demo1.vue'
+import FormItemsBuilderDemo2 from '@/components/common/FormItemsBuilder/demos/demo2.vue'
+import FormItemsBuilderDemo3 from '@/components/common/FormItemsBuilder/demos/demo3.vue'
+import FormItemsBuilderDemo4 from '@/components/common/FormItemsBuilder/demos/demo4.vue'
+// import * as readme from '@/components/common/FormItemsBuilder/README.md?raw'
 
 const meta = {
   title: 'Common/FormItemsBuilder',

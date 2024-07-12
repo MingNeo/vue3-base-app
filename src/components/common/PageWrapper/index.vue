@@ -5,21 +5,11 @@ const hasPermission = computed(() => permissionStore.checkHasAuth(currentRoute.v
 </script>
 
 <template>
-  <div v-if="hasPermission" class="page-wrapper">
+  <div v-if="hasPermission" class="page-wrapper flex-1 flex flex-col overflow-auto h-full">
     <slot />
   </div>
-  <div v-else class="flex-grow p-8">
+  <div v-else class="flex-grow p-5">
     <!-- 也可以permission页面配置路由独立跳转403页面 -->
     无权限访问
   </div>
 </template>
-
-<style scoped lang="scss">
-.page-wrapper {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: auto;
-  height: 100%;
-}
-</style>

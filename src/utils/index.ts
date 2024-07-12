@@ -1,4 +1,4 @@
-import { imageFormats } from '~/config'
+import { imageFormats } from '@/config'
 
 export { v4 as uuid } from 'uuid'
 

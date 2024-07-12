@@ -11,7 +11,7 @@ interface UploadFile {
 
 interface PropsTypes {
   accept?: string
-  limit?: { limitSize?: number; limitNum: number }
+  limit?: { limitSize?: number, limitNum: number }
   multiple?: boolean
   viewMode?: boolean
   files?: UploadFile | UploadFile[]
@@ -37,7 +37,7 @@ watchEffect(() => {
   uploadFiles.value = props.multiple ? (props.files || []) as UploadFile[] : ([props.files as UploadFile].filter(Boolean))
 })
 
-const handleUploadChange = async ({ fileList = [] }: { fileList: UploadFile[] }) => {
+async function handleUploadChange({ fileList = [] }: { fileList: UploadFile[] }) {
   uploadFiles.value = fileList
   isUploading.value = fileList.some(({ status }) => status === 'uploading')
 

@@ -37,10 +37,6 @@ const formData = reactive({
   address: '',
 })
 
-function handleCancel() {
-  visible.value = false
-}
-
 function handleSubmit(value: any) {
   console.log(value)
 }
@@ -48,10 +44,9 @@ function handleSubmit(value: any) {
 
 <template>
   <common-modal-form
-    v-model:visible="visible"
+    v-model="visible"
     :fields="fields"
     :default-value="formData"
-    @update:visible="handleCancel"
     @ok="handleSubmit"
   />
 </template>
@@ -73,7 +68,7 @@ const modalFormRef = ref(null)
 <template>
   <common-modal-form
     ref="modalFormRef"
-    v-model:visible="showModal"
+    v-model="showModal"
     ...
   />
 </template>
@@ -91,7 +86,7 @@ const formState = reactive({
 
 <template>
   <common-modal-form
-    v-model:visible="showModal"
+    v-model="showModal"
     v-model:form-state="formState"
     ...
   />
@@ -177,7 +172,7 @@ watch(data.name, name => name === '张三' && (data.gender = 'male'))
 <template>
   <common-modal-form
     :key="data?.id"
-    v-model:visible="modalInfo.visible"
+    v-model="modalInfo.visible"
     v-model:form-state="data"
     :view-mode="modalInfo.viewMode"
     :fields="detailFields"
@@ -196,7 +191,7 @@ ModalForm组件提供了几个默认插槽`<slot />`，用于显示在模态框�
 
 ```html
 <template>
-  <ModalForm v-model:visible="showModal" :fields="fields" v-model:formState="data">
+  <ModalForm v-model="showModal" :fields="fields" v-model:formState="data">
     <template #header>
       <!-- 这里用在表单内容顶部 -->
     </template>

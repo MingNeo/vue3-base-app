@@ -10,7 +10,7 @@ const emit = defineEmits(['update:modelValue', 'change'])
  * 示例SearchForm 自定义field
  */
 
-const getSelectData = () => {
+function getSelectData() {
   const data = [
     { value: 'china', label: '中国' },
     { value: 'usa', label: '美国' },
@@ -32,7 +32,7 @@ async function selectData() {
   }
 }
 
-const handleOnChange = (newValue: any) => {
+function handleOnChange(newValue: any) {
   emit('change', newValue)
   emit('update:modelValue', newValue)
 }

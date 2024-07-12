@@ -1,9 +1,9 @@
-import type { UserModule } from '~/types'
-import { whiteList } from '~/config/permission'
-import { usePermissionStore } from '~/stores/permission'
-import { useUserStore } from '~/stores/user'
-import { DISABLED_PERMISSSION, openRedirectLogin, saveLoginToken } from '~/config'
-import localAccessToken from '~/utils/accessToken'
+import type { UserModule } from '@/types'
+import { whiteList } from '@/config/permission'
+import { usePermissionStore } from '@/stores/permission'
+import { useUserStore } from '@/stores/user'
+import { DISABLED_PERMISSSION, openRedirectLogin, saveLoginToken } from '@/config'
+import localAccessToken from '@/utils/accessToken'
 
 declare module 'vue' {
   interface ComponentCustomProperties {

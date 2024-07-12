@@ -6,41 +6,30 @@ import {
   transformerVariantGroup,
 } from 'unocss'
 
+const themeColors: Record<string, any> = {
+  'primary': 'var(--primary-color)',
+  'bg-white': 'var(--bg-color-white)',
+  'bg-content': 'var(--content-background)',
+  'bg-active': 'var(--background-active)',
+  'active': 'var(--active-color)',
+  'text-black': 'var(--text-color)',
+  'grey': 'var(--text-color-grey)',
+  'border-grey': 'var(--text-color-grey)',
+}
+
 export default defineConfig({
   shortcuts: [],
   presets: [
     presetUno(),
     presetTypography(),
   ],
+  theme: {
+    colors: themeColors,
+  },
   rules: [
-    [/^(width|height|top|left|right|bottom)(\d+)$/, ([,name, d]) => ({ [name]: `${d}px` })],
-    [/^fs\-?(\d+)$/, ([, d]) => ({ 'font-size': `${d}px` })],
-    [/^frs\-?(\d+)$/, ([, d]) => ({ 'font-size': `${+d / 75}rem` })],
-    [/^fvs\-?(\d+)$/, ([, d]) => ({ 'font-size': `${+d / 10}vw` })],
-    [/^lh\-?(\d+)$/, ([, d]) => ({ 'line-height': `${d}px` })],
-    [/^gap\-?(\d+)$/, ([, d]) => ({ gap: `${d}px` })],
-    [/^radius\-?(\d+)$/, ([, d]) => ({ 'border-radius': `${d}px` })],
-    [/^(margin|padding)\-?([trblvh]?)(\d+)$/, ([,name, p, d]) => {
-      const nameObject: { [props: string]: string[] } = {
-        t: ['-top'],
-        l: ['-left'],
-        r: ['-right'],
-        b: ['-bottom'],
-        v: ['-top', '-bottom'],
-        h: ['-left', '-right'],
-      }
-      const rs: { [props: string]: string } = {};
-      (nameObject[p] || ['']).forEach((pos: string) => {
-        rs[`${name}${pos}`] = `${d}px`
-      })
-
-      return rs
-    }],
-    [/^p\-v\-(\d+)(px)?$/, ([, d]) => ({ 'padding-top': `${d}px`, 'padding-bottom': `${d}px` })],
-    [/^p\-h\-(\d+)(px)?$/, ([, d]) => ({ 'padding-left': `${d}px`, 'padding-right': `${d}px` })],
-    [/^m\-v\-(\d+)(px)?$/, ([, d]) => ({ 'margin-top': `${d}px`, 'margin-bottom': `${d}px` })],
-    [/^m\-h\-(\d+)(px)?$/, ([, d]) => ({ 'margin-left': `${d}px`, 'margin-right': `${d}px` })],
-    ['h-v-center', { position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }],
+    ['xy-center', { position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }],
+    ['flex-center', { 'display': 'flex', 'justify-content': 'center', 'align-items': 'center' }],
+    ['transition', { 'transition-property': 'all', 'transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)', 'transition-duration': '150ms' }],
   ],
   transformers: [
     transformerDirectives(),

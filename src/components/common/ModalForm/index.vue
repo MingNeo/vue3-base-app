@@ -4,7 +4,7 @@ import { computed, defineEmits, defineProps, ref, watch } from 'vue'
 const props = withDefaults(defineProps<{
   title?: string
   width?: number
-  visible: boolean
+  modelValue?: boolean
   loading?: boolean
   defaultValue?: any
   formState?: Record<string, any> // 用于v-model绑定表单state
@@ -15,7 +15,7 @@ const props = withDefaults(defineProps<{
   formItemProps?: Record<string, any>
 }>(), { defaultValue: {} })
 
-const emit = defineEmits(['update:visible', 'ok', 'cancel', 'update:formState', 'formChange'])
+const emit = defineEmits(['update:modelValue', 'ok', 'cancel', 'update:formState', 'formChange'])
 
 const formRef = ref()
 
@@ -32,7 +32,7 @@ const formState = computed({
   },
 })
 
-watch(() => props.visible, (val) => {
+watch(() => props.modelValue, (val) => {
   localFormState.value = val ? (unbind(props.defaultValue) || {}) : {}
 }, { deep: true })
 
@@ -42,36 +42,34 @@ watch(
   { deep: true },
 )
 
-const visible = computed({
-  get: () => props.visible,
-  set: value => emit('update:visible', value),
-})
-
-const handleOk = async () => {
+async function handleOk() {
   try {
     if (!props.viewMode) {
       await formRef.value.validate()
       emit('ok', formState.value)
     }
-    visible.value = false
+    emit('update:modelValue', false)
   }
   catch (error) {
     console.error('error', error)
   }
 }
 
-const handleCancel = () => {
-  visible.value = false
+function handleCancel() {
+  emit('update:modelValue', false)
   emit('cancel')
   formState.value = {}
 }
 
-const handleDataChange = (value: any) => {
+function handleDataChange(value: any) {
   formState.value = value
 }
 
-const handleAfterClose = () => {
-  formState.value = props.defaultValue
+function handleBeforeClose(done: any) {
+  nextTick(() => {
+    formState.value = props.defaultValue
+  })
+  done()
 }
 
 defineExpose({
@@ -81,21 +79,16 @@ defineExpose({
 
 <template>
   <common-modal
-    :visible="visible"
+    :model-value="modelValue"
     :width="props.width"
     :title="props.title"
     destroy-on-close
-    ok-text="提交"
-    cancel-text="取消"
-    :after-close="handleAfterClose"
-    :footer="props.viewMode ? null : undefined"
+    :before-close="handleBeforeClose"
     v-bind="$attrs"
-    @ok="handleOk"
-    @cancel="handleCancel"
-    @update:visible="handleCancel"
+    @update:model-value="handleCancel"
   >
-    <el-spin :spinning="props.loading">
-      <el-form ref="formRef" :model="formState" layout="vertical">
+    <div v-loading="props.loading">
+      <el-form ref="formRef" :model="formState" layout="vertical" label-position="left">
         <slot name="header" />
         <slot :data="formState" :on-change="handleDataChange" :form-ref="formRef">
           <common-form-items-builder
@@ -110,6 +103,19 @@ defineExpose({
         </slot>
         <slot name="extra" />
       </el-form>
-    </el-spin>
+    </div>
+
+    <template #footer>
+      <slot name="footer" :close="handleCancel" :ok="handleOk">
+        <div class="dialog-footer flex justify-center gap-[8px]">
+          <common-button @click="handleCancel">
+            取消
+          </common-button>
+          <common-button type="primary" @click="handleOk">
+            提交
+          </common-button>
+        </div>
+      </slot>
+    </template>
   </common-modal>
 </template>

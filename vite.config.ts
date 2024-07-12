@@ -17,18 +17,20 @@ function IconParkResolver(): ComponentResolver {
   return {
     type: 'component',
     resolve: (name: string) => {
-      if (name.match(/^IconPark/))
-        return { name: name.replace('IconPark', ''), from: '@icon-park/vue-next' }
-      if (name.match(/^icon-park/))
-        return { name: name.replace('icon-park-', ''), from: '@icon-park/vue-next' }
+      if (name.startsWith('Iconify'))
+        return { name: 'Icon', from: '@iconify/vue' }
+      // 暂时使用iconify，后续可能指定自己icon组件
+      if (name.startsWith('Icon'))
+        return { name: 'Icon', from: '@iconify/vue' }
     },
   }
 }
 
 export default defineConfig(({ command }) => ({
+  base: './',
   resolve: {
     alias: {
-      '~/': `${path.resolve(__dirname, 'src')}/`,
+      '@/': `${path.resolve(__dirname, 'src')}/`,
     },
   },
 

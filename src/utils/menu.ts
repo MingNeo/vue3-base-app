@@ -1,12 +1,14 @@
 import { pathToRegexp } from 'path-to-regexp'
 import { routes } from 'vue-router/auto-routes'
-import { generateMenuByAuth } from '~/config'
+import type { IconifyIcon } from '@iconify/vue'
+import { generateMenuByAuth } from '@/config'
 
 export interface MenuItem {
   key: string
   title: string
   path?: string
   children?: MenuItem[]
+  icon?: string | IconifyIcon
   role?: string[]
   permission?: string[]
 }

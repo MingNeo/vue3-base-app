@@ -1,6 +1,5 @@
 <script setup>
-import FormItemsBuilder from '~/components/common/FormItemsBuilder/index.vue'
-import CountrySelectorField from '~/components/common/FormItemsBuilder/demos/CountrySelectorField.vue'
+import FormItemsBuilder from '@/components/common/FormItemsBuilder/index.vue'
 
 const data = ref({
   users: [{
@@ -46,7 +45,7 @@ function removeUser(index) {
   data.value.users.splice(index, 1)
 }
 
-function addUser(num = 1) {
+function addUser() {
   data.value.users.push({})
 }
 </script>
@@ -56,20 +55,20 @@ function addUser(num = 1) {
     <p>
       {{ JSON.stringify(data) }}
     </p>
-    <a class="inline-block m-b-10px" @click="toggleMode">
+    <a class="inline-block mb-[10px]" @click="toggleMode">
       {{ !viewMode ? '改为查看模式' : '改为编辑模式' }}
     </a>
 
-    <el-form ref="formRef" :model="data">
+    <el-form :model="data">
       <div
         v-for="(user, index) in data.users"
         :key="index"
-        class="flex m-b-8px"
+        class="flex mb-2"
       >
         <FormItemsBuilder
           v-model="data.users[index]" class="flex-1" :name-prefix="['users', index]" :column="3" :view-mode="viewMode" :fields="fields"
         />
-        <a v-if="!viewMode" class="m-l-20px h-32px lh-32px" @click="removeUser(index)">delete</a>
+        <a v-if="!viewMode" class="ml-[20px] h-[32px] leading-[32px]" @click="removeUser(index)">delete</a>
       </div>
       <el-button v-if="!viewMode" type="dashed" block @click="addUser">
         Add

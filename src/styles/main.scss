@@ -1,10 +1,17 @@
-html,
-body,
-#app {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  background: #F2F2F2;
+:root {
+  --primary-color: #3356EB;
+  --text-color: #000;
+  --text-color-white: #fff;
+  --text-color-grey: #eee;
+  --bg-color-grey: #F1F2F4;
+  --bg-color-white: #fff;
+
+  --el-color-primary: var(--primary-color) !important;
+  --el-disabled-bg-color: var(--text-color-grey) !important;
+  --el-checkbox-checked-bg-color: var(--primary-color);
+  --el-checkbox-checked-input-border-color: var(--primary-color);
+  --active-color: var(--primary-color);
+  --scrollbar-bg: #e6e8ee;
 }
 
 /* 覆盖uno.css全局样式 */
@@ -24,9 +31,40 @@ body,
   }
 }
 
-html.dark {
-  background: #121212;
+html.dark,
+body.dark {
   color-scheme: dark;
+  --primary-color: #f2f2f2;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: #f2f2f2;
+}
+
+* {
+  &::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-bg);
+    border-radius: 4px;
+  }
+}
+
+.iconify,
+.iconify--ai-eyes {
+  fill: currentColor;
 }
 
 #nprogress {
@@ -44,13 +82,54 @@ html.dark {
   height: 2px;
 }
 
-.i-icon svg {
-  display: block;
-}
-
 .page-container {
   position: relative;
   flex: 1;
   overflow-y: auto;
   padding: 20px;
+}
+
+.input {
+  border-radius: 8px;
+  border: none;
+  padding: 6px;
+  outline: none;
+  background: #eee;
+}
+
+.divider {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-self: stretch;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  height: 1rem;
+  white-space: nowrap
+}
+
+.divider:before,
+.divider:after {
+  height: .125rem;
+  width: 100%;
+  flex-grow: 1;
+  --tw-content: "";
+  content: var(--tw-content);
+  background-color: var(--fallback-bc, oklch(var(--bc)/.1))
+}
+
+.divider-start:before {
+  display: none
+}
+
+.divider-end:after {
+  display: none
+}
+
+.el-input__inner {
+  --el-input-height: 40px;
+}
+
+.el-select__wrapper {
+  min-height: 40px !important;
 }

@@ -27,7 +27,7 @@ export default function useSteps(steps: Step[] = [], defaultCurrentSetp: Ref<any
     currentKey.value = stepsMap.value[steps[currentIndex.value]?.value]?.index
   }
 
-  const goTo = ({ value, index }: { value?: string; index?: number }) => {
+  const goTo = ({ value, index }: { value?: string, index?: number }) => {
     value && (currentKey.value = value)
     index && (currentIndex.value = index)
   }

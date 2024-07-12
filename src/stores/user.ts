@@ -1,8 +1,8 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { debounce } from 'lodash-es'
-import * as api from '~/api/user'
-import { saveLoginToken } from '~/config'
-import localAccessToken from '~/utils/accessToken'
+import * as api from '@/api/user'
+import { saveLoginToken } from '@/config'
+import localAccessToken from '@/utils/accessToken'
 
 export const useUserStore = defineStore('user', () => {
   const token = ref(localAccessToken.get())
@@ -14,6 +14,7 @@ export const useUserStore = defineStore('user', () => {
     const { token: newToken, expireTime } = result as any
     if (saveLoginToken) {
       token.value = newToken
+      // @ts-expect-error-next-line
       localAccessToken.set(newToken, expireTime * 1000)
     }
     else {
@@ -49,6 +50,14 @@ export const useUserStore = defineStore('user', () => {
     }
   }, 500, { leading: true, trailing: false })
 
+  const clearLogin = () => {
+    token.value = ''
+    localAccessToken.remove()
+    info.value = {}
+    const permissionStore = usePermissionStore()
+    permissionStore.setRoles([])
+  }
+
   // 登出
   const logout = async () => {
     try {
@@ -58,11 +67,7 @@ export const useUserStore = defineStore('user', () => {
       // eslint-disable-next-line no-console
       console.log('logout fail:', error)
     }
-    token.value = ''
-    localAccessToken.remove()
-    info.value = {}
-    const permissionStore = usePermissionStore()
-    permissionStore.setRoles([])
+    clearLogin()
   }
 
   const updateUserInfo = (value: any) => {
@@ -75,6 +80,7 @@ export const useUserStore = defineStore('user', () => {
     login,
     getInfo,
     logout,
+    clearLogin,
     getCaptcha,
     updateUserInfo,
   }

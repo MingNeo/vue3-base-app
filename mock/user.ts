@@ -37,7 +37,7 @@ const mockLoginResult = {
   userId: 0,
 }
 
-const mockUserList = new Array(10).fill('').map((v, i) => ({
+const mockUserList = Array.from({ length: 10 }).fill('').map((v, i) => ({
   address: {},
   avatarUrl: '',
   birthDate: '',

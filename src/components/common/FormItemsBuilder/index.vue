@@ -82,7 +82,7 @@ function getRulesForColumn(item: any) {
   return rules
 }
 
-function renderView(val: ValueType, field: FormItemsBuilderField, formState?: FormItemsBuilderFormState) {
+function renderView(val: ValueType, field: FormItemsBuilderField) {
   if (field.type === 'checkbox' || (field.type === 'select' && field.fieldProps?.mode === 'multiple'))
     return Array.isArray(val) ? (field?.fieldProps?.options?.filter?.((v: any) => val.includes(v.value)).map((v: any) => v.label).join(', ') || '') : ''
   if (['select', 'radio', 'checkbox'].includes(field.type || 'input'))
@@ -165,7 +165,7 @@ function getPlaceholder(type: string, label?: string) {
               <template #title>
                 {{ item.labelTip }}
               </template>
-              <CommonIcon type="bangzhuhelp-96444ckf" style="margin-left: 2px;" />
+              <icon class="ml-[2px]" icon="icon-park-outline:help" />
             </el-tooltip>
           </template>
           <template v-if="(viewMode || item.viewMode) && item.type === 'component' && item.customRender">
@@ -182,10 +182,10 @@ function getPlaceholder(type: string, label?: string) {
               </div>
               <div v-else-if="item.type === 'upload'">
                 <common-origin-upload :file-list="formState[item.name]" readonly />
-                <!-- <a v-for="(_value, _index) in formState[item.name]" :key="_index" class="m-r-8px" :href="_value.url">{{ _value.name }}</a> -->
+                <!-- <a v-for="(_value, _index) in formState[item.name]" :key="_index" class="mr-8px" :href="_value.url">{{ _value.name }}</a> -->
               </div>
               <div v-else class="break-all">
-                {{ renderView(formState[item.name], item, formState) }}
+                {{ renderView(formState[item.name], item) }}
               </div>
             </slot>
           </template>
@@ -298,6 +298,13 @@ function getPlaceholder(type: string, label?: string) {
               :model-value="formState[item.name]" :placeholder="item.placeholder"
               v-bind="item.fieldProps"
               @update:model-value="(val) => onFieldChange(item, val)" v-on="item.on || {}"
+            />
+          </template>
+          <template v-else-if="item.type === 'colorPicker'">
+            <el-color-picker
+              :model-value="formState[item.name]"
+              v-bind="item.fieldProps"
+              @update:model-value="(val: any) => onFieldChange(item, val)" v-on="item.on || {}"
             />
           </template>
           <template v-else-if="item.type === 'upload'">

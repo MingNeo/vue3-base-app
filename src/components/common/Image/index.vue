@@ -7,12 +7,11 @@ const height = computed(() => typeof props.height === 'string' ? props.height : 
 </script>
 
 <template>
-  <el-image class="common-image" :style="{ height }" />
+  <el-image class="common-image rounded-1" :style="{ height }" />
 </template>
 
 <style lang="scss">
 .common-image {
   object-fit: cover;
-  border-radius: 4px;
 }
 </style>

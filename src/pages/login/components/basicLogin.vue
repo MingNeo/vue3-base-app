@@ -22,7 +22,7 @@ const rules = ref({
 
 const userStore = useUserStore()
 
-const handleSubmit = async (values) => {
+async function handleSubmit(values) {
   try {
     await userStore.login(values)
   }
@@ -36,7 +36,7 @@ const handleSubmit = async (values) => {
 
 <template>
   <div class="bg-white">
-    <div class="marginb20 text-30px text-center">
+    <div class="mb-5 text-[30px] text-center">
       登录
     </div>
     <el-form
@@ -54,15 +54,15 @@ const handleSubmit = async (values) => {
       </el-form-item>
 
       <el-form-item>
-        <el-button class="m-t-10px w-100%" type="primary" @click="handleSubmit">
+        <el-button class="mt-[10px] w-full" type="primary" @click="handleSubmit">
           登录
         </el-button>
       </el-form-item>
-      <div>
+      <div class="text-[13px] flex items-center gap-[4px]">
         <el-checkbox v-model:checked="formState.remember" />
         我已阅读并同意 <a href="">《用户协议》</a> 和 <a href="">《隐私政策》</a>
       </div>
-      <div class="flex justify-between">
+      <div class="flex justify-between text-[13px]">
         <a href="">注册</a>
         <a href="">忘记密码</a>
       </div>
@@ -70,5 +70,5 @@ const handleSubmit = async (values) => {
   </div>
 </template>
 
-  <style lang="scss" scoped>
-  </style>
+<style lang="scss" scoped>
+</style>

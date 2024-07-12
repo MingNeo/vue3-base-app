@@ -1,8 +1,13 @@
 export const menus = [
+  // {
+  //   key: 'manage',
+  //   title: '首页',
+  //   path: '/',
+  // },
   {
     key: 'manage',
-    title: '首页',
-    path: '/',
+    title: 'manage',
+    path: '/manage',
   },
   {
     key: 'test',

@@ -1,6 +1,8 @@
 <script setup>
-import FormItemsBuilder from '~/components/common/FormItemsBuilder/index.vue'
-import CountrySelectorField from '~/components/common/FormItemsBuilder/demos/CountrySelectorField.vue'
+import FormItemsBuilder from '@/components/common/FormItemsBuilder/index.vue'
+import CountrySelectorField from '@/components/common/FormItemsBuilder/demos/CountrySelectorField.vue'
+
+const formRef = ref()
 
 const data = ref({
   name: '',
@@ -132,7 +134,7 @@ function toggleMode() {
     </a>
     <el-form ref="formRef" :model="data">
       <FormItemsBuilder v-model="data" :column="1" :view-mode="isViewMode" :fields="fields" :form-item-options="formItemProps" />
-      <el-button class="m-t-10px" type="primary" html-type="submit">
+      <el-button class="mt-[10px]" type="primary" html-type="submit">
         submit
       </el-button>
     </el-form>
