@@ -15,7 +15,7 @@ interface ResponseData {
   type: 'success' | 'error'
 }
 
-const baseUrl = import.meta.env.BASE_API_URL || ''
+const baseUrl = ''
 
 /**
  * 创建axios实例的工厂函数
@@ -43,12 +43,15 @@ export function createRequest(config: CreateAxiosDefaults<any>) {
     if (status !== 200)
       return Promise.reject(res)
 
-    const { responseType = 'json', formatData = true } = res.config as RequestConfig
+    const { responseType = 'json', formatData = true, quiet } = res.config as RequestConfig
 
     if (responseType === 'json') {
       if (res.data.error_code) {
-        ElMessage.error(res.data.message)
-        return Promise.reject(res.data.message)
+        if (res.data.error_code === 401)
+          return unLoginRedirect(res.data.message)
+
+        quiet || ElMessage.error(res.data.message)
+        return Promise.reject(new Error(res.data.message))
       }
       if (formatData && res.data && isObject(res.data)) {
         res.data = res.data as ResponseData
@@ -62,21 +65,27 @@ export function createRequest(config: CreateAxiosDefaults<any>) {
   return instance
 }
 
-export function unLoginRedirect() {
+export function unLoginRedirect(errorMessage: string) {
   ElMessage.error('无权限, 请登录')
   const userStore = useUserStore()
   userStore.clearLogin()
+  return Promise.reject(new Error(errorMessage))
 }
 
 // request异常拦截处理器
 function errorHandler(error: any) {
+  // 取消请求不进行报错处理
+  if (error.message === 'canceled')
+    return Promise.reject
+
   // response 报错处理
   if (error.response) {
     const { data, status } = error.response
+    const { quiet } = error.config || {} as RequestConfig
     if (status === 401)
-      unLoginRedirect()
+      unLoginRedirect(error.message || '无权限, 请登录')
 
-    else ElMessage.error(data?.message || '接口异常')
+    else quiet || ElMessage.error(data?.message || '接口异常')
 
     return Promise.reject(error)
   }

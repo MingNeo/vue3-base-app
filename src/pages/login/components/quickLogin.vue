@@ -3,7 +3,7 @@ const emit = defineEmits(['success'])
 
 const formState = reactive({
   username: 'testUser2',
-  code: 'Admin@123456',
+  code: '123456',
   remember: true,
 })
 
@@ -61,7 +61,7 @@ async function handleSubmit(values) {
       </el-form-item>
 
       <el-form-item prop="code">
-        <el-input v-model="formState.code" show-password placeholder="验证码">
+        <el-input v-model="formState.code" placeholder="验证码">
           <template #append>
             <div v-if="isCounting">
               <span>{{ formattedTime }}秒后重发</span>
@@ -83,7 +83,9 @@ async function handleSubmit(values) {
         我已阅读并同意 <a href="">《用户协议》</a> 和 <a href="">《隐私政策》</a>
       </div>
       <div class="flex justify-between text-[13px]">
-        <a href="">注册</a>
+        <router-link to="/register">
+          注册
+        </router-link>
         <a href="">忘记密码</a>
       </div>
     </el-form>

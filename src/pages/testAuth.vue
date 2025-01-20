@@ -9,6 +9,7 @@
 
 <route lang="yaml">
 meta:
+  layout: basic
   title: 权限测试页
   permission: [test]
 </route>

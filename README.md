@@ -1,4 +1,4 @@
-# Vue3 基础工程
+# Vue3 + Element Plus + Vite基础工程
 本工程在通用基础工程基础上，内置了常用功能及基础组件，方便快速开发应用。
 
 ## 特性
@@ -66,7 +66,6 @@ pnpm build
 
 自动导入无需引入及注册以下目录下组件,根据文件目录生成组件名，如components/common/HelloWord.vue可直接在
 template中使用<CommonHelloWord /> 或 <common-hello-word />
-- components
 
 具体可参见自动生成的src/auto-imports.d.ts
 
@@ -74,6 +73,25 @@ template中使用<CommonHelloWord /> 或 <common-hello-word />
 
 src/pages目录下的vue文件将自动生成路由。
 该目录下的各页面目录内children、components下的文件将不会生成路由。
+
+### layout
+页面的布局文件
+如不指定，则使用默认布局。
+可以像这样在页面的SFC中指定布局：
+
+```vue
+<route lang="yaml">
+meta:
+  layout: basic
+</route>
+
+<template>
+  ...
+</template>
+```
+
+- 默认：空布局
+- basic：包含顶栏、左侧菜单的layout
 
 ### 权限控制
 
@@ -116,11 +134,14 @@ hasAuth('demoList:del')
 如使用自定义图标，可在src/assets/iconify.json中配置。
 如上传至iconfont，并配合(tampermonkey-iconfont-iconify油猴插件)[https://github.com/yee94/tampermonkey-iconfont-iconify]插件直接下载iconify.json文件覆盖即可。
 
-```vue
-### mock
+### Mock
 
-mock目录下的文件将自动生成mock，当本地开发且未转发时可自动使用mock
+`/mock`目录下的文件将自动生成mock，当本地开发且未转发对应api时可自动使用mock
 
 ### 组件预览
 
-内置Storybook，
+内置Storybook, 在stories目录下配置story文件。运行pnpm run storybook即可查看
+
+### test
+
+在test目录下配置单测脚本即可

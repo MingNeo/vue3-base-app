@@ -6,3 +6,9 @@
     测试页
   </div>
 </template>
+
+<route lang="yaml">
+  meta:
+    layout: basic
+    title: 测试页
+  </route>

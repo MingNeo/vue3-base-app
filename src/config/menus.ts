@@ -19,9 +19,4 @@ export const menus = [
     title: '404',
     path: '/xxx',
   },
-  {
-    key: 'formBuilderDemo',
-    title: 'formBuilder',
-    path: '/formBuilderDemo',
-  },
 ]
