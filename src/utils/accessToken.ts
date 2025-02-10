@@ -1,5 +1,5 @@
-import cookie from 'js-cookie'
 import { ACCESS_TOKEN_SAVE_KEY, accessTokenSaveBy } from '@/config'
+import cookie from 'js-cookie'
 
 const localAccessTokens = {
   localStorage: {

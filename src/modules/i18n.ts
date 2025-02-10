@@ -1,5 +1,5 @@
-import { createI18n } from 'vue-i18n'
 import type { UserModule } from '@/types'
+import { createI18n } from 'vue-i18n'
 
 // https://vitejs.dev/guide/features.html#glob-import
 const messages = Object.fromEntries(

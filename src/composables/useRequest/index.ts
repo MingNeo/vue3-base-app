@@ -1,6 +1,6 @@
 import type { Ref, ShallowRef } from 'vue-demi'
-import { ref, shallowRef } from 'vue-demi'
 import { until } from '@vueuse/shared'
+import { ref, shallowRef } from 'vue-demi'
 
 interface RequestReturn<T> {
   data: Ref<T | undefined>
@@ -84,14 +84,12 @@ export default function useRequest<T = any>(fetchFn: (...args: any) => Promise<T
 
   const waitUntilFinished = () =>
     new Promise<RequestReturn<T>>((resolve, reject) => {
-      until(isFinished).toBe(true)
-        .then(() => resolve({
-          data,
-          error,
-          isFinished,
-          isLoading,
-        }))
-        .catch(reject)
+      until(isFinished).toBe(true).then(() => resolve({
+        data,
+        error,
+        isFinished,
+        isLoading,
+      })).catch(reject)
     })
 
   const then: PromiseLike<RequestReturn<T>>['then'] = (onFulfilled, onRejected) =>

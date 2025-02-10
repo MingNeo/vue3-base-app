@@ -4,13 +4,17 @@
 
 ## 使用方法
 
-```typescript
-<template>
-  <div v-if="hasAuth('xxxx:edit')">您有编辑权限</div>
-  <div v-else>对不起，您没有编辑权限</div>
-</template>
-
+```vue
 <script lang="ts" setup>
 const hasAuth = useAuth()
 </script>
+
+<template>
+  <div v-if="hasAuth('xxxx:edit')">
+    您有编辑权限
+  </div>
+  <div v-else>
+    对不起，您没有编辑权限
+  </div>
+</template>
 ```

@@ -8,11 +8,11 @@
 useRequest(fetchFn, options)
 ```
 
-```javascript
+```typescript
 import useRequest from 'useRequest'
 
-//定义请求方法，比如：
-const fetchFn = (id: number) => {
+// 定义请求方法，比如：
+function fetchFn(id: number) {
   return axios.get(`/api/user/${id}`)
 }
 
@@ -20,7 +20,7 @@ export default {
   setup() {
     const { data, execute, isLoading } = useRequest(fetchFn)
 
-    //默认情况下加载该hook时就会自动触发请求，也可通过调用execute主动发起请求
+    // 默认情况下加载该hook时就会自动触发请求，也可通过调用execute主动发起请求
     const getUser = async (id) => {
       await execute(id)
     }

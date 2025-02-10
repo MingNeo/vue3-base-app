@@ -1,8 +1,8 @@
 import type { CreateAxiosDefaults, InternalAxiosRequestConfig } from 'axios'
+import { REQUEST_ACCESS_TOKEN_KEY, saveLoginToken } from '@/config'
 import axios from 'axios'
 import { isObject } from 'lodash-es'
 import localAccessToken from './accessToken'
-import { REQUEST_ACCESS_TOKEN_KEY, saveLoginToken } from '@/config'
 
 interface RequestConfig extends InternalAxiosRequestConfig {
   formatData?: boolean
@@ -50,7 +50,7 @@ export function createRequest(config: CreateAxiosDefaults<any>) {
         if (res.data.error_code === 401)
           return unLoginRedirect(res.data.message)
 
-        quiet || ElMessage.error(res.data.message)
+        quiet || message.error(res.data.message)
         return Promise.reject(new Error(res.data.message))
       }
       if (formatData && res.data && isObject(res.data)) {
@@ -66,7 +66,7 @@ export function createRequest(config: CreateAxiosDefaults<any>) {
 }
 
 export function unLoginRedirect(errorMessage: string) {
-  ElMessage.error('无权限, 请登录')
+  message.error('无权限, 请登录')
   const userStore = useUserStore()
   userStore.clearLogin()
   return Promise.reject(new Error(errorMessage))
@@ -85,7 +85,7 @@ function errorHandler(error: any) {
     if (status === 401)
       unLoginRedirect(error.message || '无权限, 请登录')
 
-    else quiet || ElMessage.error(data?.message || '接口异常')
+    else quiet || message.error(data?.message || '接口异常')
 
     return Promise.reject(error)
   }
@@ -97,7 +97,7 @@ function errorHandler(error: any) {
   if (error.message.includes('timeout') || [504, 499, 'ECONNABORTED'].includes(error.code))
     error.message = '数据处理中，请稍后重试'
 
-  ElMessage.error(error.message || '接口异常')
+  message.error(error.message || '接口异常')
 
   return Promise.reject(error)
 }

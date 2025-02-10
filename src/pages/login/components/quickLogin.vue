@@ -1,96 +1,101 @@
-<script setup>
-const emit = defineEmits(['success'])
-
-const formState = reactive({
-  username: 'testUser2',
-  code: '123456',
-  remember: true,
-})
-
-const rules = ref({
-  username: [{
-    required: true,
-    message: '请输入用户名',
-    trigger: 'blur',
-  }],
-  code: [{
-    required: true,
-    message: '请输入验证码',
-    trigger: 'blur',
-  }],
-})
-
+<script setup lang="ts">
+const router = useRouter()
 const userStore = useUserStore()
 
-const { start, formattedTime, isCounting } = useCountdown(60)
-async function handleGetCaptcha() {
-  start()
+const loading = ref(false)
+const phone = ref('')
+const code = ref('')
+const countdown = useCountdown(60)
+
+async function handleSubmit() {
+  if (!phone.value || !code.value) {
+    window.$message.error('请输入手机号和验证码')
+    return
+  }
+
+  loading.value = true
   try {
-    await userStore.getCaptcha()
+    await userStore.login({
+      phone: phone.value,
+      code: code.value,
+    })
+    window.$message.success('登录成功')
+    router.push('/')
   }
   catch (error) {
-    return ElMessage.error(`获取验证码失败！${error.message}`)
+    console.error(error)
+  }
+  finally {
+    loading.value = false
   }
 }
 
-async function handleSubmit(values) {
-  try {
-    await userStore.login(values)
-  }
-  catch (error) {
-    return ElMessage.error(`登录失败！${error.message}`)
+async function getCode() {
+  if (!phone.value) {
+    window.$message.error('请输入手机号')
+    return
   }
 
-  emit('success')
+  try {
+    await userStore.getCaptcha(phone.value)
+    window.$message.success('验证码已发送')
+    countdown.start()
+  }
+  catch (error) {
+    console.error(error)
+  }
 }
 </script>
 
 <template>
-  <div class="bg-white">
-    <div class="mb-6 text-[30px] text-center">
-      登录
-    </div>
-    <el-form
-      :model="formState"
-      class="login-form"
-      :rules="rules"
-      @finish="handleSubmit"
-    >
-      <el-form-item prop="username">
-        <el-input v-model="formState.username" placeholder="请输入账号" />
-      </el-form-item>
+  <div class="w-full max-w-sm mx-auto">
+    <h2 class="text-2xl font-bold text-center mb-8">
+      快速登录
+    </h2>
 
-      <el-form-item prop="code">
-        <el-input v-model="formState.code" placeholder="验证码">
-          <template #append>
-            <div v-if="isCounting">
-              <span>{{ formattedTime }}秒后重发</span>
-            </div>
-            <div v-else @click="handleGetCaptcha">
-              <a href="javascript:;">获取验证码</a>
-            </div>
-          </template>
-        </el-input>
-      </el-form-item>
+    <form class="space-y-6" @submit.prevent="handleSubmit">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">手机号</label>
+        <common-input
+          v-model="phone"
+          type="text"
+          placeholder="请输入手机号"
+        />
+      </div>
 
-      <el-form-item>
-        <el-button class="mt-[10px] w-full !h-10" type="primary" @click="handleSubmit">
-          登录
-        </el-button>
-      </el-form-item>
-      <div class="text-[13px] flex items-center gap-[4px]">
-        <el-checkbox v-model:checked="formState.remember" />
-        我已阅读并同意 <a href="">《用户协议》</a> 和 <a href="">《隐私政策》</a>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">验证码</label>
+        <div class="flex gap-4">
+          <common-input
+            v-model="code"
+            type="text"
+            placeholder="请输入验证码"
+          />
+          <common-button class="w-25" :disabled="!!countdown.isCounting" @click="getCode">
+            {{ countdown.isCounting ? `${countdown.current.value}s` : '获取验证码' }}
+          </common-button>
+        </div>
       </div>
-      <div class="flex justify-between text-[13px]">
-        <router-link to="/register">
-          注册
-        </router-link>
-        <a href="">忘记密码</a>
+
+      <common-button
+        type="primary"
+        class="w-full"
+        :loading="loading"
+        @click="handleSubmit"
+      >
+        登录
+      </common-button>
+      <div class="text-center">
+        <a
+          class="text-sm text-blue-600 hover:text-blue-500 cursor-pointer"
+          @click="router.push('/register')"
+        >
+          没有账号？去注册
+        </a>
       </div>
-    </el-form>
+    </form>
   </div>
 </template>
 
-  <style lang="scss" scoped>
-  </style>
+<style lang="scss" scoped>
+</style>

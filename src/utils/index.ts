@@ -7,7 +7,9 @@ export function unbind<T>(value: T): T {
   try {
     result = JSON.parse(JSON.stringify(value))
   }
-  catch (error) { }
+  catch (error) {
+    console.warn(error)
+  }
   return result
 }
 

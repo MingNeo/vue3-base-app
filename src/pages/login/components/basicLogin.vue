@@ -7,27 +7,42 @@ const formState = reactive({
   remember: true,
 })
 
-const rules = ref({
-  username: [{
-    required: true,
-    message: '请输入用户名',
-    trigger: 'change',
-  }],
-  password: [{
-    required: true,
-    message: '请输入密码',
-    trigger: 'change',
-  }],
+// 表单验证状态
+const errors = reactive({
+  username: '',
+  password: '',
 })
 
 const userStore = useUserStore()
 
-async function handleSubmit(values) {
+function validateForm() {
+  let isValid = true
+  errors.username = ''
+  errors.password = ''
+
+  if (!formState.username) {
+    errors.username = '请输入用户名'
+    isValid = false
+  }
+  if (!formState.password) {
+    errors.password = '请输入密码'
+    isValid = false
+  }
+  return isValid
+}
+
+async function handleSubmit(e) {
+  e.preventDefault()
+
+  if (!validateForm())
+    return
+
   try {
-    await userStore.login(values)
+    await userStore.login(formState)
   }
   catch (error) {
-    return ElMessage.error(`登录失败！${error.message}`)
+    alert(`登录失败！${error.message}`)
+    return
   }
 
   emit('success')
@@ -35,38 +50,64 @@ async function handleSubmit(values) {
 </script>
 
 <template>
-  <div class="bg-white">
-    <div class="mb-5 text-[30px] text-center">
+  <div class="bg-white p-8 rounded-lg shadow-md">
+    <h1 class="mb-5 text-[30px] text-center font-medium">
       登录
-    </div>
-    <el-form
-      :model="formState"
-      class="login-form"
-      :rules="rules"
-      @finish="handleSubmit"
-    >
-      <el-form-item prop="username">
-        <el-input v-model="formState.username" placeholder="请输入账号" />
-      </el-form-item>
+    </h1>
 
-      <el-form-item prop="password">
-        <el-input v-model="formState.password" show-password placeholder="请输入密码" />
-      </el-form-item>
+    <form class="space-y-4" @submit="handleSubmit">
+      <div>
+        <input
+          v-model="formState.username"
+          type="text"
+          placeholder="请输入账号"
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          :class="{ 'border-red-500': errors.username }"
+        >
+        <p v-if="errors.username" class="mt-1 text-sm text-red-500">
+          {{ errors.username }}
+        </p>
+      </div>
 
-      <el-form-item>
-        <el-button class="mt-[10px] w-full" type="primary" @click="handleSubmit">
-          登录
-        </el-button>
-      </el-form-item>
-      <div class="text-[13px] flex items-center gap-[4px]">
-        <el-checkbox v-model:checked="formState.remember" />
-        我已阅读并同意 <a href="">《用户协议》</a> 和 <a href="">《隐私政策》</a>
+      <div>
+        <input
+          v-model="formState.password"
+          type="password"
+          placeholder="请输入密码"
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          :class="{ 'border-red-500': errors.password }"
+        >
+        <p v-if="errors.password" class="mt-1 text-sm text-red-500">
+          {{ errors.password }}
+        </p>
       </div>
-      <div class="flex justify-between text-[13px]">
-        <a href="">注册</a>
-        <a href="">忘记密码</a>
+
+      <button
+        type="submit"
+        class="w-full py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+      >
+        登录
+      </button>
+
+      <div class="text-sm flex items-center gap-1">
+        <label class="flex items-center gap-1 cursor-pointer">
+          <input
+            v-model="formState.remember"
+            type="checkbox"
+            class="w-4 h-4 rounded border-gray-300 text-blue-500 focus:ring-blue-500"
+          >
+          <span>我已阅读并同意</span>
+        </label>
+        <a href="" class="text-blue-500 hover:text-blue-600">《用户协议》</a>
+        和
+        <a href="" class="text-blue-500 hover:text-blue-600">《隐私政策》</a>
       </div>
-    </el-form>
+
+      <div class="flex justify-between text-sm">
+        <a href="" class="text-blue-500 hover:text-blue-600">注册</a>
+        <a href="" class="text-blue-500 hover:text-blue-600">忘记密码</a>
+      </div>
+    </form>
   </div>
 </template>
 

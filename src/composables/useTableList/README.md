@@ -4,6 +4,8 @@
 
 ### 使用方法
 需要用到searchFormRef及searchState，searchState也可自己定义，关联form model即可，无需传给该hook
+
+以下为element-plus的示例
 ``` html
 <script setup>
 import useTableList from '@/composables/useTableList'

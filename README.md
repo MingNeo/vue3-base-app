@@ -113,9 +113,9 @@ meta:
 #### 3、按钮级权限控制
 
 ```vue
-<el-button v-if="$hasAuth('demoList:del')">
+<button v-if="$hasAuth('demoList:del')">
 Button
-</el-button>
+</button>
 ```
 
 or
@@ -131,7 +131,7 @@ hasAuth('demoList:del')
 <icon icon="icon-park-outline:back" />
 ```
 
-如使用自定义图标，可在src/assets/iconify.json中配置。
+如使用自定义图标，可在src/assets/icons/iconify.json中配置。
 如上传至iconfont，并配合(tampermonkey-iconfont-iconify油猴插件)[https://github.com/yee94/tampermonkey-iconfont-iconify]插件直接下载iconify.json文件覆盖即可。
 
 ### Mock

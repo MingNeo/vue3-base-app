@@ -3,7 +3,7 @@
 
 <template>
   <div class="w-full h-full p-[20px]">
-    测试页
+    Manage 测试页
   </div>
 </template>
 

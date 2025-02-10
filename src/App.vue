@@ -1,9 +1,15 @@
 <script setup lang="ts">
+import type { message } from './utils/message'
 import { useHead } from '@vueuse/head'
 import dayjs from 'dayjs'
-import 'dayjs/locale/zh-cn'
-import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 import { getInfo } from './api/user'
+import 'dayjs/locale/zh-cn'
+
+declare global {
+  interface Window {
+    $message: typeof message
+  }
+}
 
 dayjs.locale('zh-cn')
 
@@ -34,9 +40,6 @@ onMounted(() => {
 
 <template>
   <div id="app">
-    <!-- eslint-disable-next-line vue/attribute-hyphenation -->
-    <el-config-provider :locale="zhCn">
-      <RouterView />
-    </el-config-provider>
+    <RouterView />
   </div>
 </template>

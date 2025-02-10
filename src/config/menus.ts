@@ -7,7 +7,13 @@ export const menus = [
   {
     key: 'manage',
     title: 'manage',
-    path: '/manage',
+    children: [
+      {
+        key: 'manage-test',
+        title: '测试页',
+        path: '/manage',
+      },
+    ],
   },
   {
     key: 'test',

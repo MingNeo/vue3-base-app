@@ -3,144 +3,135 @@
     layout: blank
   </route>
 
-<script setup>
-const formState = reactive({
+<script setup lang="ts">
+const router = useRouter()
+const loading = ref(false)
+const form = reactive({
   username: '',
-  code: '',
   password: '',
   confirmPassword: '',
-  agree: false,
+  phone: '',
+  code: '',
 })
+const countdown = useCountdown(60)
 
-const rules = ref({
-  username: [{
-    required: true,
-    message: '请输入用户名',
-    trigger: 'blur',
-  }],
-  code: [{
-    required: true,
-    message: '请输入验证码',
-    trigger: 'blur',
-  }],
-  password: [{
-    required: true,
-    message: '请输入密码',
-    trigger: 'blur',
-  }],
-  confirmPassword: [{
-    required: true,
-    message: '请确认密码',
-    trigger: 'blur',
-  }, {
-    validator: (rule, value) => {
-      if (value !== formState.password)
-        throw new Error('两次输入的密码不一致')
-      return Promise.resolve()
-    },
-    trigger: 'blur',
-  }],
-  agree: [{
-    validator: (rule, value) => {
-      if (!value)
-        throw new Error('请阅读并同意用户协议和隐私政策')
-      return Promise.resolve()
-    },
-    trigger: 'change',
-  }],
-})
-
-const userStore = useUserStore()
-const router = useRouter()
-
-const { start, formattedTime, isCounting } = useCountdown(60)
-async function handleGetCaptcha() {
-  start()
-  try {
-    await userStore.getCaptcha()
+async function handleSubmit() {
+  if (!form.username || !form.password || !form.confirmPassword || !form.phone || !form.code) {
+    window.$message.error('请填写完整信息')
+    return
   }
-  catch (error) {
-    return ElMessage.error(`获取验证码失败！${error.message}`)
-  }
-}
 
-async function handleSubmit(values) {
+  if (form.password !== form.confirmPassword) {
+    window.$message.error('两次密码不一致')
+    return
+  }
+
+  loading.value = true
   try {
-    await userStore.register(values)
-    ElMessage.success('注册成功！')
+    // 调用注册接口
+    window.$message.success('注册成功')
     router.push('/login')
   }
   catch (error) {
-    return ElMessage.error(`注册失败！${error.message}`)
+    console.error(error)
+  }
+  finally {
+    loading.value = false
+  }
+}
+
+async function getCode() {
+  if (!form.phone) {
+    window.$message.error('请输入手机号')
+    return
+  }
+
+  try {
+    await getCaptcha()
+    window.$message.success('验证码已发送')
+    countdown.start()
+  }
+  catch (error) {
+    console.error(error)
   }
 }
 </script>
 
 <template>
-  <div class="bg-white p-8 rounded-lg shadow-md w-[400px] mx-auto mt-[100px]">
-    <div class="mb-6 text-[30px] text-center">
-      注册
-    </div>
-    <el-form
-      :model="formState"
-      class="register-form"
-      :rules="rules"
-      @finish="handleSubmit"
-    >
-      <el-form-item prop="username">
-        <el-input v-model="formState.username" placeholder="请输入用户名" />
-      </el-form-item>
+  <div class="bg-white rounded-lg mt-20 p-6 max-w-sm mx-auto">
+    <h2 class="text-2xl font-bold text-center mb-8">
+      注册账号
+    </h2>
 
-      <el-form-item prop="code">
-        <el-input v-model="formState.code" placeholder="验证码">
-          <template #append>
-            <div v-if="isCounting">
-              <span>{{ formattedTime }}秒后重发</span>
-            </div>
-            <div v-else @click="handleGetCaptcha">
-              <a href="javascript:;">获取验证码</a>
-            </div>
-          </template>
-        </el-input>
-      </el-form-item>
+    <form class="space-y-6" @submit.prevent="handleSubmit">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">用户名</label>
+        <common-input
+          v-model="form.username"
+          type="text"
+          placeholder="请输入用户名"
+        />
+      </div>
 
-      <el-form-item prop="password">
-        <el-input
-          v-model="formState.password"
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">密码</label>
+        <common-input
+          v-model="form.password"
           type="password"
           placeholder="请输入密码"
-          show-password
         />
-      </el-form-item>
-
-      <el-form-item prop="confirmPassword">
-        <el-input
-          v-model="formState.confirmPassword"
-          type="password"
-          placeholder="请确认密码"
-          show-password
-        />
-      </el-form-item>
-
-      <el-form-item prop="agree">
-        <div class="text-[13px] flex items-center gap-[4px]">
-          <el-checkbox v-model="formState.agree" />
-          我已阅读并同意 <a href="">《用户协议》</a> 和 <a href="">《隐私政策》</a>
-        </div>
-      </el-form-item>
-
-      <el-form-item>
-        <el-button class="mt-[10px] w-full !h-10" type="primary" @click="handleSubmit">
-          注册
-        </el-button>
-      </el-form-item>
-
-      <div class="text-[13px] text-center">
-        已有账号？<router-link to="/login" class="text-primary">
-          立即登录
-        </router-link>
       </div>
-    </el-form>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">确认密码</label>
+        <common-input
+          v-model="form.confirmPassword"
+          type="password"
+          placeholder="请再次输入密码"
+        />
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">手机号</label>
+        <common-input
+          v-model="form.phone"
+          type="text"
+          placeholder="请输入手机号"
+        />
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">验证码</label>
+        <div class="flex gap-4">
+          <common-input
+            v-model="form.code"
+            type="text"
+            placeholder="请输入验证码"
+          />
+          <common-button :disabled="!!countdown.isCounting" class="w-25" @click="getCode">
+            {{ countdown.isCounting ? `${countdown.current.value}s` : '获取验证码' }}
+          </common-button>
+        </div>
+      </div>
+
+      <common-button
+        type="primary"
+        class="w-full"
+        :loading="loading"
+        @click="handleSubmit"
+      >
+        注册
+      </common-button>
+
+      <div class="text-center">
+        <a
+          class="text-sm text-blue-600 hover:text-blue-500 cursor-pointer"
+          @click="router.push('/login')"
+        >
+          已有账号？去登录
+        </a>
+      </div>
+    </form>
   </div>
 </template>
 

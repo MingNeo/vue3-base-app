@@ -20,19 +20,11 @@ async function handleSubmitSuccess() {
 
 <template>
   <!-- 主要内容区 -->
-  <div class="w-[100vw] h-[100vh] p-5 flex relative page">
-    <div class="absolute right-20 top-[50%] w-100 shadow p-10 rounded-[10px] bg-white content-wrapper">
+  <div class="w-[100vw] h-[100vh] p-5 flex justify-center items-center relative">
+    <div class="w-100 shadow p-10 rounded-[10px] bg-white">
       <QuickLogin @success="handleSubmitSuccess" />
+      <!-- <Icon class="w-10 h-10" icon="local:douyin" />
+      <Icon class="w-10 h-10" icon="local:wechat" /> -->
     </div>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.page {
-  background-image: linear-gradient(to bottom, rgba(255, 0, 0, 0), rgba(96, 165, 250, 1));
-}
-
-.content-wrapper {
-  transform: translateY(-50%);
-}
-</style>

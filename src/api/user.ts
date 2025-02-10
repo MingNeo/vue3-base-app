@@ -8,9 +8,10 @@ export async function login(params: any) {
   return result
 }
 
-export function getCaptcha() {
+export function getCaptcha(params: any) {
   return request('/api/user/captcha', {
     method: 'post',
+    data: params,
   })
 }
 

@@ -1,6 +1,6 @@
-import { computed } from 'vue'
 import type { Ref } from 'vue'
 import { debounce } from 'lodash-es'
+import { computed } from 'vue'
 import useRequest from '../useRequest'
 
 export type UseTableListService = (...args: any) => Promise<any>
@@ -78,6 +78,7 @@ export default function useTableList(
             formRef.value[key] = searchData.value[key]
         }
         catch (error) {
+          console.warn(error)
         }
       })
     }

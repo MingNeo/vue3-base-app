@@ -1,8 +1,8 @@
-import { acceptHMRUpdate, defineStore } from 'pinia'
-import { debounce } from 'lodash-es'
 import * as api from '@/api/user'
 import { saveLoginToken } from '@/config'
 import localAccessToken from '@/utils/accessToken'
+import { debounce } from 'lodash-es'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 
 export const useUserStore = defineStore('user', () => {
   const token = ref(localAccessToken.get())
@@ -22,8 +22,8 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
-  const getCaptcha = async () => {
-    return await api.getCaptcha()
+  const getCaptcha = async (phone: string) => {
+    return await api.getCaptcha(phone)
   }
 
   // 获取用户信息

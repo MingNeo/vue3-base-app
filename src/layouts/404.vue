@@ -5,10 +5,19 @@ const goback = () => router.back()
 
 <template>
   <div class="w-[100vw] h-[100vh] flex items-center justify-center">
-    <el-empty description="当前页面不存在">
-      <el-button type="primary" @click="goback">
+    <div class="text-center">
+      <div class="text-[60px] font-bold">
+        404
+      </div>
+      <div class="text-gray-500 mb-2">
+        当前页面不存在
+      </div>
+      <button
+        class="bg-blue-500 text-white px-4 py-1 rounded-md"
+        @click="goback"
+      >
         返回
-      </el-button>
-    </el-empty>
+      </button>
+    </div>
   </div>
 </template>

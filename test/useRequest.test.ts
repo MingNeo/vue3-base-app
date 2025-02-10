@@ -1,5 +1,5 @@
-import { ref } from 'vue-demi'
 import { describe, expect, it, vitest as jest } from 'vitest'
+import { ref } from 'vue-demi'
 import useRequest from '../src/composables/useRequest'
 
 describe('useRequest', () => {

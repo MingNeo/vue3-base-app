@@ -1,9 +1,14 @@
 <script setup lang="ts">
 const user = useUserStore()
-
 const router = useRouter()
+
 function gotoLogin() {
   router.push(`/login?redirect=${window.location.pathname}`)
+}
+
+const showDropdown = ref(false)
+function toggleDropdown() {
+  showDropdown.value = !showDropdown.value
 }
 </script>
 
@@ -13,20 +18,33 @@ function gotoLogin() {
       Admin
     </div>
     <div class="right">
-      <el-dropdown v-if="user.info.id">
-        <span class="el-dropdown-link">
-          用户名
-        </span>
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item>个人中心</el-dropdown-item>
-            <el-dropdown-item>退出登录</el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
-      <el-button v-else type="primary" @click="gotoLogin">
+      <div v-if="user.info.id" class="relative">
+        <button
+          class="flex items-center space-x-1 hover:bg-gray-100 px-3 py-2 rounded-md"
+          @click="toggleDropdown"
+        >
+          <span>用户名</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+
+        <div v-if="showDropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
+          <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+            个人中心
+          </a>
+          <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+            退出登录
+          </a>
+        </div>
+      </div>
+      <button
+        v-else
+        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
+        @click="gotoLogin"
+      >
         登录/注册
-      </el-button>
+      </button>
     </div>
   </header>
 </template>
