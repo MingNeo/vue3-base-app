@@ -7,28 +7,26 @@ import AutoImport from 'unplugin-auto-import/vite'
 import { FileSystemIconLoader } from 'unplugin-icons/loaders'
 import IconsResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+// import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import VueRouter from 'unplugin-vue-router/vite'
 import { defineConfig } from 'vite'
 import { viteMockServe } from 'vite-plugin-mock'
 // import generateSitemap from 'vite-ssg-sitemap'
 import Layouts from 'vite-plugin-vue-layouts'
+import svgLoader from 'vite-svg-loader'
 import devServerConfig from './dev.server.config'
 // import iconifyPlugin from './plugins/iconify-plugin'
 
-// function IconResolver(): ComponentResolver {
-//   return {
-//     type: 'component',
-//     resolve: (name: string) => {
-//       if (name.startsWith('Iconify'))
-//         return { name: 'Icon', from: '@iconify/vue' }
-//       // 暂时使用iconify，后续可能指定自己icon组件
-//       if (name.startsWith('Icon'))
-//         return { name: 'Icon', from: '@iconify/vue' }
-//     },
-//   }
-// }
+function IconResolver(): ComponentResolver {
+  return {
+    type: 'component',
+    resolve: (name: string) => {
+      if (name === 'Icon' || name === 'Iconify')
+        return { name: 'Icon', from: '@iconify/vue' }
+    },
+  }
+}
 
 export default defineConfig(({ command }) => ({
   base: './',
@@ -52,11 +50,11 @@ export default defineConfig(({ command }) => ({
     }),
 
     // https://github.com/JohnCampionJr/vite-plugin-vue-layouts
-    Layouts({ defaultLayout: 'basic' }),
+    Layouts(),
 
     // https://github.com/antfu/unplugin-auto-import
     AutoImport({
-      resolvers: [ElementPlusResolver()],
+      // resolvers: [ElementPlusResolver()],
       imports: [
         'vue',
         'vue-router',
@@ -75,7 +73,14 @@ export default defineConfig(({ command }) => ({
 
     // https://github.com/antfu/unplugin-vue-components
     Components({
-      resolvers: [ElementPlusResolver(), IconsResolver()],
+      resolvers: [
+        // ElementPlusResolver(),
+        IconsResolver({
+          prefix: 'icon',
+          customCollections: ['local'],
+        }),
+        IconResolver(),
+      ],
       extensions: ['vue'],
       include: [/\.vue$/, /\.vue\?vue/],
       directoryAsNamespace: true,
@@ -87,7 +92,7 @@ export default defineConfig(({ command }) => ({
     Unocss(),
 
     Icons({
-      autoInstall: true,
+      autoInstall: false,
       customCollections: {
         local: FileSystemIconLoader(
           './src/assets/icons',
@@ -110,6 +115,9 @@ export default defineConfig(({ command }) => ({
       mockPath: 'mock',
       enable: command === 'serve',
     }),
+
+    svgLoader(),
+
     Vue(),
 
     // iconifyPlugin({

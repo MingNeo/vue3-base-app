@@ -85,7 +85,7 @@
     "graphql"
   ],
   "iconify.customCollectionJsonPaths": [
-    "./src/assets/icons/iconify.json"
+    "./src/assets/iconify.json"
   ],
   "unot.switchMagic": false
 }

@@ -74,10 +74,15 @@ export const useUserStore = defineStore('user', () => {
     info.value = value
   }
 
+  const quickLogin = async (params: any) => {
+    return await api.quickLogin(params)
+  }
+
   return {
     token,
     info,
     login,
+    quickLogin,
     getInfo,
     logout,
     clearLogin,

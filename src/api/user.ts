@@ -34,3 +34,10 @@ export function getUserList(params: any) {
     data: params,
   })
 }
+
+export function quickLogin(params: any) {
+  return request('/api/user/quickLogin', {
+    method: 'post',
+    data: params,
+  })
+}

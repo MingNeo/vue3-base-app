@@ -17,19 +17,19 @@ const countdown = useCountdown(60)
 
 async function handleSubmit() {
   if (!form.username || !form.password || !form.confirmPassword || !form.phone || !form.code) {
-    window.$message.error('请填写完整信息')
+    message.error('请填写完整信息')
     return
   }
 
   if (form.password !== form.confirmPassword) {
-    window.$message.error('两次密码不一致')
+    message.error('两次密码不一致')
     return
   }
 
   loading.value = true
   try {
     // 调用注册接口
-    window.$message.success('注册成功')
+    message.success('注册成功')
     router.push('/login')
   }
   catch (error) {
@@ -42,13 +42,13 @@ async function handleSubmit() {
 
 async function getCode() {
   if (!form.phone) {
-    window.$message.error('请输入手机号')
+    message.error('请输入手机号')
     return
   }
 
   try {
     await getCaptcha()
-    window.$message.success('验证码已发送')
+    message.success('验证码已发送')
     countdown.start()
   }
   catch (error) {

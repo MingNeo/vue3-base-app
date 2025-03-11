@@ -2,14 +2,9 @@
   --primary-color: #3356EB;
   --text-color: #000;
   --text-color-white: #fff;
-  --text-color-grey: #eee;
-  --bg-color-grey: #F1F2F4;
+  --text-color-gray: #eee;
+  --bg-color-gray: #F1F2F4;
   --bg-color-white: #fff;
-
-  --el-color-primary: var(--primary-color) !important;
-  --el-disabled-bg-color: var(--text-color-grey) !important;
-  --el-checkbox-checked-bg-color: var(--primary-color);
-  --el-checkbox-checked-input-border-color: var(--primary-color);
   --active-color: var(--primary-color);
   --scrollbar-bg: #e6e8ee;
 }
@@ -29,6 +24,10 @@
   @media (min-width: 1024px) {
     max-width: 100%;
   }
+}
+
+html {
+  overflow-anchor: none;
 }
 
 html.dark,
@@ -62,8 +61,7 @@ body,
   }
 }
 
-.iconify,
-.iconify--ai-eyes {
+.iconify {
   fill: currentColor;
 }
 
@@ -124,12 +122,4 @@ body,
 
 .divider-end:after {
   display: none
-}
-
-.el-input__inner {
-  --el-input-height: 40px;
-}
-
-.el-select__wrapper {
-  min-height: 40px !important;
 }

@@ -1,4 +1,4 @@
-# Vue3 + Element Plus + Vite基础工程
+# Vue3 + Vite基础工程
 本工程在通用基础工程基础上，内置了常用功能及基础组件，方便快速开发应用。
 
 ## 特性
@@ -125,10 +125,44 @@ const hasAuth = useAuth()
 hasAuth('demoList:del')
 ```
 
+### 登录拦截
+
+在src/modules/permission.ts中配置登录拦截路由白名单，未在白名单且校验无权限的页面，会跳转至登录页面。
+
+```js
+const whiteList = [
+  '/login',
+  '/register',
+]
+```
+
+接口请求拦截器在src/utils/request.ts中配置， 可在unLoginHandler中配置未登录时跳转的页面。
+
+```ts
+export function unLoginHandler(errorMessage: string) {
+  // ...
+  router.push('/login')
+}
+```
+
 ### 图标
 使用 [@iconify/vue](https://iconify.design/docs/icon-components/vue/)
+以及[unplugin-icons](https://github.com/antfu/unplugin-icons)
+
 ```vue
-<icon icon="icon-park-outline:back" />
+<!-- 无需安装图标包，可以直接使用@iconify/vue的所有图标，使用哪个图标直接远程获取并自动缓存 -->
+<!-- 可以在 https://icon-sets.iconify.design/ 右上角搜索图标，也可使用iconify.json配置本地图标 -->
+<icon icon="icon-park-outline:back" class="text-red-500 w-10 h-10" />
+
+<!-- 如果已安装图标包，也可以使用如下方式 -->
+<icon-carbon-close class="text-red-500 w-10 h-10" />
+
+<!-- 本地图标使用unplugin-icons，在src/assets/icons目录下放置svg文件即可 -->
+<!-- 如src/assets/icons/warning.svg ，用法为: 'icon-local-' + 文件名 -->
+<icon-local-warning />
+
+<!-- or -->
+<IconLocalWarning />
 ```
 
 如使用自定义图标，可在src/assets/icons/iconify.json中配置。
@@ -145,3 +179,73 @@ hasAuth('demoList:del')
 ### test
 
 在test目录下配置单测脚本即可
+
+### 响应式开发
+
+项目内置了常用的断点配置:
+
+- xs: 414px (小屏手机)
+- sm: 640px (大屏手机)
+- md: 768px (平板)
+- lg: 1024px (桌面)
+- xl: 1280px (大桌面)
+- 2xl: 1536px (超大桌面)
+
+可以使用 `useScreenSize` 在组件中判断屏幕尺寸。
+
+```vue
+<script setup lang="ts">
+const { screenSize, isMobile } = useScreenSize()
+</script>
+```
+
+注：css样式中，使用unocss的断点配置即可，如：
+
+```html
+<!-- 大于640px -->
+<div class="sm:w-[500px]">hello</div>
+<!-- 小于640px -->
+<div class="max-sm:w-full">hello</div>
+```
+
+### 移动端安全区适配
+
+iPhone X 等机型有胶囊、底部指示条等，需要针对这些机型进行安全区适配。
+
+可以开启相关适配
+
+```html
+<!-- 在 head 标签中添加 meta 标签，并设置 viewport-fit=cover 值 -->
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover"
+/>
+
+使用MobileSafeContainer容器包裹内容即可
+
+```vue
+<MobileSafeContainer top bottom class="xxx">
+  <div>内容</div>
+</MobileSafeContainer>
+```
+
+或使用本工程提供的的`safe-pt、safe-pb、safe-mt、safe-mb、safe-pt-*、safe-pb-*、safe-mt-*、safe-mb-*`类名
+
+```html
+<div class="safe-pt">
+内容
+</div>
+<div class="safe-pt-10">
+内容
+</div>
+```
+等同于
+
+```css
+.safe-pt {
+  padding-top: env(safe-area-inset-top);
+}
+.safe-pt-10 {
+  padding-top: calc(env(safe-area-inset-top) + 10px);
+}
+```

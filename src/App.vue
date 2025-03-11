@@ -2,7 +2,6 @@
 import type { message } from './utils/message'
 import { useHead } from '@vueuse/head'
 import dayjs from 'dayjs'
-import { getInfo } from './api/user'
 import 'dayjs/locale/zh-cn'
 
 declare global {
@@ -12,6 +11,9 @@ declare global {
 }
 
 dayjs.locale('zh-cn')
+
+const isDark = useDark()
+const preferredDark = usePreferredDark()
 
 // https://github.com/vueuse/head
 useHead({
@@ -33,8 +35,9 @@ useHead({
   script: [],
 })
 
+const userStore = useUserStore()
 onMounted(() => {
-  getInfo()
+  userStore.getInfo()
 })
 </script>
 

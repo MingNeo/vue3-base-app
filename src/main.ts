@@ -1,5 +1,5 @@
 import type { UserModule } from './types'
-import iconSet from '@/assets/icons/iconify.json'
+import iconSet from '@/assets/iconify.json'
 import { menus } from '@/config/menus'
 import { addCollection } from '@iconify/vue'
 import { createHead } from '@vueuse/head'

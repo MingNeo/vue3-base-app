@@ -5,7 +5,7 @@ const hasPermission = computed(() => permissionStore.checkHasAuth(currentRoute.v
 </script>
 
 <template>
-  <div v-if="hasPermission" class="page-wrapper flex-1 flex flex-col overflow-auto h-full">
+  <div v-if="hasPermission" class="page-wrapper flex-1 overflow-auto h-full">
     <slot />
   </div>
   <div v-else class="flex-grow p-5 flex items-center justify-center text-gray-500">

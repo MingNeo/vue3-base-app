@@ -2,7 +2,7 @@
 const emit = defineEmits(['success'])
 
 const formState = reactive({
-  username: 'testUser2',
+  username: 'testUser',
   password: 'Admin@123456',
   remember: true,
 })
@@ -16,24 +16,25 @@ const errors = reactive({
 const userStore = useUserStore()
 
 function validateForm() {
-  let isValid = true
   errors.username = ''
   errors.password = ''
-
+  if (!formState.remember) {
+    errors.remember = '请勾选隐私协议'
+    return false
+  }
   if (!formState.username) {
     errors.username = '请输入用户名'
-    isValid = false
+    return false
   }
   if (!formState.password) {
     errors.password = '请输入密码'
-    isValid = false
+    return false
   }
-  return isValid
+  return true
 }
 
 async function handleSubmit(e) {
   e.preventDefault()
-
   if (!validateForm())
     return
 
@@ -41,7 +42,7 @@ async function handleSubmit(e) {
     await userStore.login(formState)
   }
   catch (error) {
-    alert(`登录失败！${error.message}`)
+    message.error(`登录失败！${error.message}`)
     return
   }
 
@@ -50,51 +51,56 @@ async function handleSubmit(e) {
 </script>
 
 <template>
-  <div class="bg-white p-8 rounded-lg shadow-md">
-    <h1 class="mb-5 text-[30px] text-center font-medium">
+  <div class="rounded-lg bg-white px-4 py-8">
+    <h1 class="mb-5 text-center text-[26px] font-medium">
       登录
     </h1>
 
-    <form class="space-y-4" @submit="handleSubmit">
-      <div>
+    <form @submit="handleSubmit">
+      <div class="relative w-full">
         <input
-          v-model="formState.username"
-          type="text"
-          placeholder="请输入账号"
-          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          id="userName" v-model="formState.username" type="text"
+          class="peer dark:autofill:shadow-autofill block w-[260px] w-full border border-gray-300 rounded-md border-solid px-3 py-2 outline-none dark:text-white placeholder:opacity-0 focus:ring-1 focus:ring-[#1f293733] dark:peer-focus:text-primary dark:placeholder:text-neutral-300"
           :class="{ 'border-red-500': errors.username }"
         >
-        <p v-if="errors.username" class="mt-1 text-sm text-red-500">
-          {{ errors.username }}
-        </p>
+        <label
+          v-show="!formState.username" for="userName"
+          class="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[5px] text-[#999] leading-[2.15] transition-all duration-200 ease-out peer-active:scale-[0.8] peer-focus:scale-[0.8] peer-focus:bg-white dark:text-neutral-400 peer-focus:leading-[1] motion-reduce:transition-none peer-active:-translate-y-[1.15rem] peer-focus:-translate-y-[0.6rem] dark:peer-focus:text-primary"
+        >Username
+        </label>
       </div>
+      <p class="h-5 text-[12px] text-red-500">
+        {{ errors.username || '' }}
+      </p>
 
-      <div>
+      <div class="relative w-full">
         <input
-          v-model="formState.password"
-          type="password"
-          placeholder="请输入密码"
-          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          id="password" v-model="formState.password" type="password"
+          class="peer dark:autofill:shadow-autofill block w-[260px] w-full border border-gray-300 rounded-md border-solid px-3 py-2 outline-none dark:text-white placeholder:opacity-0 focus:ring-1 focus:ring-[#1f293733] dark:peer-focus:text-primary dark:placeholder:text-neutral-300"
           :class="{ 'border-red-500': errors.password }"
         >
-        <p v-if="errors.password" class="mt-1 text-sm text-red-500">
-          {{ errors.password }}
-        </p>
+        <label
+          v-show="!formState.password" for="password"
+          class="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[5px] text-[#999] leading-[2.15] transition-all duration-200 ease-out peer-active:scale-[0.8] peer-focus:scale-[0.8] peer-focus:bg-white dark:text-neutral-400 peer-focus:leading-[1] motion-reduce:transition-none peer-active:-translate-y-[1.15rem] peer-focus:-translate-y-[0.6rem] dark:peer-focus:text-primary"
+        >Password
+        </label>
       </div>
+      <p class="h-5 text-[12px] text-red-500">
+        {{ errors.password || '' }}
+      </p>
 
       <button
         type="submit"
-        class="w-full py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        class="block h-10 w-full rounded-md bg-primary text-white active:scale-[98%] hover:bg-primary/80"
       >
         登录
       </button>
 
-      <div class="text-sm flex items-center gap-1">
-        <label class="flex items-center gap-1 cursor-pointer">
+      <div class="mt-4 flex items-center gap-1 text-sm">
+        <label class="flex cursor-pointer items-center gap-1">
           <input
-            v-model="formState.remember"
-            type="checkbox"
-            class="w-4 h-4 rounded border-gray-300 text-blue-500 focus:ring-blue-500"
+            v-model="formState.remember" type="checkbox"
+            class="h-4 w-4 border-gray-300 rounded text-blue-500 focus:ring-blue-500"
           >
           <span>我已阅读并同意</span>
         </label>
@@ -103,13 +109,10 @@ async function handleSubmit(e) {
         <a href="" class="text-blue-500 hover:text-blue-600">《隐私政策》</a>
       </div>
 
-      <div class="flex justify-between text-sm">
+      <div class="mt-4 flex justify-between text-sm">
         <a href="" class="text-blue-500 hover:text-blue-600">注册</a>
         <a href="" class="text-blue-500 hover:text-blue-600">忘记密码</a>
       </div>
     </form>
   </div>
 </template>
-
-<style lang="scss" scoped>
-</style>

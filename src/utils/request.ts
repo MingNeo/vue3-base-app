@@ -34,7 +34,22 @@ export function createRequest(config: CreateAxiosDefaults<any>) {
     }
 
     return config
-  }, errorHandler)
+  }, (error: any) => {
+    // 取消请求不进行报错处理
+    if (error.message === 'canceled')
+      return Promise.reject
+
+    // 常见request报错处理
+    if (error.message === 'Network Error')
+      error.message = '网络异常'
+
+    if (error.message.includes('timeout') || [504, 499, 'ECONNABORTED'].includes(error.code))
+      error.message = '数据处理中，请稍后重试'
+
+    message.error(error.message || '接口异常')
+
+    return Promise.reject(error)
+  })
 
   // response 拦截
   instance.interceptors.response.use((res) => {
@@ -48,7 +63,7 @@ export function createRequest(config: CreateAxiosDefaults<any>) {
     if (responseType === 'json') {
       if (res.data.error_code) {
         if (res.data.error_code === 401)
-          return unLoginRedirect(res.data.message)
+          return unLoginHandler(res.data.message)
 
         quiet || message.error(res.data.message)
         return Promise.reject(new Error(res.data.message))
@@ -60,46 +75,32 @@ export function createRequest(config: CreateAxiosDefaults<any>) {
       return res.data
     }
     else { return res }
-  }, errorHandler)
+  }, (error: any) => {
+    // response 非200报错处理
+    if (error.response) {
+      const { data, status } = error.response
+      const { quiet } = error.config || {} as RequestConfig
+      if (status === 401)
+        unLoginHandler(error.message || '无权限, 请登录')
+
+      else quiet || message.error(data?.message || '接口异常')
+
+      return Promise.reject(error)
+    }
+
+    message.error(error.message || '接口异常')
+
+    return Promise.reject(error)
+  })
 
   return instance
 }
 
-export function unLoginRedirect(errorMessage: string) {
+export function unLoginHandler(errorMessage: string) {
   message.error('无权限, 请登录')
   const userStore = useUserStore()
   userStore.clearLogin()
   return Promise.reject(new Error(errorMessage))
-}
-
-// request异常拦截处理器
-function errorHandler(error: any) {
-  // 取消请求不进行报错处理
-  if (error.message === 'canceled')
-    return Promise.reject
-
-  // response 报错处理
-  if (error.response) {
-    const { data, status } = error.response
-    const { quiet } = error.config || {} as RequestConfig
-    if (status === 401)
-      unLoginRedirect(error.message || '无权限, 请登录')
-
-    else quiet || message.error(data?.message || '接口异常')
-
-    return Promise.reject(error)
-  }
-
-  // 常见request报错处理
-  if (error.message === 'Network Error')
-    error.message = '网络异常'
-
-  if (error.message.includes('timeout') || [504, 499, 'ECONNABORTED'].includes(error.code))
-    error.message = '数据处理中，请稍后重试'
-
-  message.error(error.message || '接口异常')
-
-  return Promise.reject(error)
 }
 
 export default createRequest({

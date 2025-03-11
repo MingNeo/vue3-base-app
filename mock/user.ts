@@ -96,4 +96,11 @@ export default [
       return wrapperPageSuccess({ page: body?.pageNo || 1, pageSize: body?.pageSize || 5, list: mockUserList })
     },
   },
+  // 验证码
+  {
+    url: '/api/user/captcha',
+    timeout: 200,
+    method: 'post',
+    response: () => wrapperSuccess({ code: '123456' }),
+  },
 ]

@@ -78,7 +78,6 @@ export default function useRequest<T = any>(fetchFn: (...args: any) => Promise<T
   }
 
   if (immediate) {
-    console.log('xxx', immediate);
     (execute as UseRequestReturn<T>['execute'])().then(undefined, console.error)
   }
 
