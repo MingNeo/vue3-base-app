@@ -220,6 +220,7 @@ iPhone X 等机型有胶囊、底部指示条等，需要针对这些机型进�
   name="viewport"
   content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover"
 />
+```
 
 使用MobileSafeContainer容器包裹内容即可
 
@@ -232,20 +233,17 @@ iPhone X 等机型有胶囊、底部指示条等，需要针对这些机型进�
 或使用本工程提供的的`safe-pt、safe-pb、safe-mt、safe-mb、safe-pt-*、safe-pb-*、safe-mt-*、safe-mb-*`类名
 
 ```html
-<div class="safe-pt">
-内容
-</div>
-<div class="safe-pt-10">
-内容
-</div>
+<div class="safe-pt">内容</div>
+<div class="safe-pt-2">内容</div>
 ```
+
 等同于
 
 ```css
 .safe-pt {
   padding-top: env(safe-area-inset-top);
 }
-.safe-pt-10 {
-  padding-top: calc(env(safe-area-inset-top) + 10px);
+.safe-pt-2 {
+  padding-top: calc(env(safe-area-inset-top) + 2rem);
 }
 ```
