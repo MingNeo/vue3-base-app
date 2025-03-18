@@ -10,5 +10,6 @@
         <RouterView />
       </common-page-wrapper>
     </div>
+    <common-footer />
   </div>
 </template>

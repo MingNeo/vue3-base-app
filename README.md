@@ -1,6 +1,8 @@
 # Vue3 + Vite基础工程
 本工程在通用基础工程基础上，内置了常用功能及基础组件，方便快速开发应用。
 
+本分支是mobile优先，集成vant组件库
+
 ## 特性
 
 - ⚡️ [Vue 3](https://github.com/vuejs/core), [Vite](https://github.com/vitejs/vite), [pnpm](https://pnpm.io/), [esbuild](https://github.com/evanw/esbuild)
@@ -151,12 +153,12 @@ export function unLoginHandler(errorMessage: string) {
 
 ```vue
 <!-- 无需安装图标包，可以直接使用@iconify/vue的所有图标，使用哪个图标直接远程获取并自动缓存 -->
-<!-- 可以在 https://icon-sets.iconify.design/ 右上角搜索图标，也可使用iconify.json配置本地图标 -->
+<!-- 可以在 https://icon-sets.iconify.design/ 右上角搜索图标 -->
 <icon icon="icon-park-outline:back" class="text-red-500 w-10 h-10" />
+```
+#### 本地图标使用方式1
 
-<!-- 如果已安装图标包，也可以使用如下方式 -->
-<icon-carbon-close class="text-red-500 w-10 h-10" />
-
+```vue
 <!-- 本地图标使用unplugin-icons，在src/assets/icons目录下放置svg文件即可 -->
 <!-- 如src/assets/icons/warning.svg ，用法为: 'icon-local-' + 文件名 -->
 <icon-local-warning />
@@ -165,8 +167,11 @@ export function unLoginHandler(errorMessage: string) {
 <IconLocalWarning />
 ```
 
-如使用自定义图标，可在src/assets/icons/iconify.json中配置。
+#### 本地图标使用方式2
+可在src/assets/icons/iconify.json中配置。
 如上传至iconfont，并配合(tampermonkey-iconfont-iconify油猴插件)[https://github.com/yee94/tampermonkey-iconfont-iconify]插件直接下载iconify.json文件覆盖即可。
+然后如下使用：
+<icon icon="local:back" class="text-red-500 w-10 h-10" />
 
 ### Mock
 

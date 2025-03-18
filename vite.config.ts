@@ -1,6 +1,7 @@
 import type { ComponentResolver } from 'unplugin-vue-components/types'
 import path from 'node:path'
 import VueI18n from '@intlify/unplugin-vue-i18n/vite'
+import { VantResolver } from '@vant/auto-import-resolver'
 import Vue from '@vitejs/plugin-vue'
 import Unocss from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -54,7 +55,9 @@ export default defineConfig(({ command }) => ({
 
     // https://github.com/antfu/unplugin-auto-import
     AutoImport({
-      // resolvers: [ElementPlusResolver()],
+      resolvers: [
+        VantResolver(),
+      ],
       imports: [
         'vue',
         'vue-router',
@@ -80,6 +83,7 @@ export default defineConfig(({ command }) => ({
           customCollections: ['local'],
         }),
         IconResolver(),
+        VantResolver(),
       ],
       extensions: ['vue'],
       include: [/\.vue$/, /\.vue\?vue/],
