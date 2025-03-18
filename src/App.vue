@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { message } from './utils/message'
-import { useHead } from '@vueuse/head'
+import { useHead } from '@unhead/vue'
 import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn'
 

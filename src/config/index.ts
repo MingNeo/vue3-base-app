@@ -13,4 +13,4 @@ export const generateMenuByAuth = false
 // 是否开启未登录自动跳转登录页
 export const openRedirectLogin = true
 
-export const imageFormats = ['jpg', 'jpeg', 'png', 'bmp', 'gif', 'bmp', 'tiff', 'webp', 'heif']
+export const imageEnums = ['jpg', 'jpeg', 'png', 'bmp', 'gif', 'bmp', 'tiff', 'webp', 'heif']

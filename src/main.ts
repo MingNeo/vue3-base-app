@@ -1,8 +1,8 @@
-import type { UserModule } from './types'
+import type { UserModule } from './types/index'
 import iconSet from '@/assets/iconify.json'
-import { menus } from '@/config/menus'
+// import { menus } from '@/config/menus'
 import { addCollection } from '@iconify/vue'
-import { createHead } from '@vueuse/head'
+import { createHead } from '@unhead/vue'
 import { setupLayouts } from 'virtual:generated-layouts'
 // import { ViteSSG } from 'vite-ssg'
 import { createApp } from 'vue'
@@ -45,6 +45,6 @@ app.use(head)
 Object.values(import.meta.glob<{ install: UserModule }>('./modules/*.ts', { eager: true }))
   .forEach(i => i.install?.({ isClient: typeof window !== 'undefined', app, router }))
 
-useSideMenuStore().setMenus(menus)
+// useSideMenuStore().setMenus(menus)
 
 app.mount('#app')

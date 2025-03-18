@@ -1,6 +1,16 @@
-import { imageFormats } from '@/config'
+import { imageEnums } from '@/config'
 
 export { v4 as uuid } from 'uuid'
+
+export function getLoginToken() {
+  try {
+    return localStorage.getItem('token') || ''
+  }
+  catch (error) {
+    console.warn(error)
+    return ''
+  }
+}
 
 export function unbind<T>(value: T): T {
   let result = value
@@ -26,7 +36,7 @@ export function isImageUrl(file: any) {
   if (file?.url) {
     const [originUrl] = file.url.split('?')
     const format = originUrl.split('.').pop().toLowerCase()
-    return imageFormats.includes(format)
+    return imageEnums.includes(format)
   }
   return false
 }

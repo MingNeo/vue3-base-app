@@ -17,7 +17,6 @@ import { viteMockServe } from 'vite-plugin-mock'
 import Layouts from 'vite-plugin-vue-layouts'
 import svgLoader from 'vite-svg-loader'
 import devServerConfig from './dev.server.config'
-// import iconifyPlugin from './plugins/iconify-plugin'
 
 function IconResolver(): ComponentResolver {
   return {
@@ -62,7 +61,7 @@ export default defineConfig(({ command }) => ({
         'vue',
         'vue-router',
         'vue-i18n',
-        '@vueuse/head',
+        // '@unhead/vue',
         '@vueuse/core',
       ],
       dts: 'src/auto-imports.d.ts',
@@ -70,6 +69,7 @@ export default defineConfig(({ command }) => ({
         'src/composables/**/*.ts',
         'src/stores',
         'src/utils',
+        'src/config',
       ],
       vueTemplate: true,
     }),
@@ -123,11 +123,6 @@ export default defineConfig(({ command }) => ({
     svgLoader(),
 
     Vue(),
-
-    // iconifyPlugin({
-    //   prefix: 'local',
-    //   assetsDir: 'src/assets/icons',
-    // }),
   ],
 
   // https://github.com/vitest-dev/vitest
@@ -135,7 +130,7 @@ export default defineConfig(({ command }) => ({
     include: ['test/**/*.test.ts', 'src/**/test/**/*.test.ts'],
     environment: 'jsdom',
     deps: {
-      inline: ['@vue', '@vueuse', 'vue-demi'],
+      inline: ['@vue', '@vueuse'],
     },
   },
 

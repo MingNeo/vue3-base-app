@@ -1,6 +1,6 @@
-import type { Ref, ShallowRef } from 'vue-demi'
+import type { Ref, ShallowRef } from 'vue'
 import { until } from '@vueuse/shared'
-import { ref, shallowRef } from 'vue-demi'
+import { ref, shallowRef } from 'vue'
 
 interface RequestReturn<T> {
   data: Ref<T | undefined>
