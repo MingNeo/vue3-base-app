@@ -13,7 +13,6 @@
 - 📥 [API 自动加载](https://github.com/antfu/unplugin-auto-import) - Composition 等API 自动引入
 - 🖨 使用 [vite-ssg](https://github.com/antfu/vite-ssg) 进行服务端生成 (SSG), 需手工开启
 - ⚙️ 使用 [Vitest](https://github.com/vitest-dev/vitest) 进行单元测试, [Cypress](https://cypress.io/) 进行 E2E 测试
-- ⚙️ 使用 [Storybook](https://storybook.js.org/) 进行可视化调试与预览
 
 <br>
 
@@ -171,10 +170,6 @@ export function unLoginHandler(errorMessage: string) {
 ### Mock
 
 `/mock`目录下的文件将自动生成mock，当本地开发且未转发对应api时可自动使用mock
-
-### 组件预览
-
-内置Storybook, 在stories目录下配置story文件。运行pnpm run storybook即可查看
 
 ### test
 
