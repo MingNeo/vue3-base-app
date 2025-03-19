@@ -12,6 +12,23 @@ export function getLoginToken() {
   }
 }
 
+// 获取完整Cdn资源地址
+export function getCdnUrl(url: string) {
+  if (!url)
+    return ''
+
+  if (url.startsWith('http') || url.startsWith('//'))
+    return url
+
+  if (import.meta.env.MODE === 'development') {
+    url = url.replace(/^(@\/|\/)/, '/src/')
+    return new URL(url, `${location.origin}`).href
+  }
+
+  url = url.replace(/^@\//, '/')
+  return import.meta.env.VITE_CDN_PATH ? new URL(url, import.meta.env.VITE_CDN_PATH).href : url
+}
+
 export function unbind<T>(value: T): T {
   let result = value
   try {

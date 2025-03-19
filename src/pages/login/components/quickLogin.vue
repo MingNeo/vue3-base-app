@@ -6,7 +6,7 @@ const loading = ref(false)
 const phone = ref('')
 const code = ref('')
 
-const countdown = useCountdown(60)
+const countdown = useCountdownTime(60)
 const isCounting = computed(() => countdown.isCounting.value)
 const errors = reactive({
   phone: '',

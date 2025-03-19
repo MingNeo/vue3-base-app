@@ -13,7 +13,7 @@ const form = reactive({
   phone: '',
   code: '',
 })
-const countdown = useCountdown(60)
+const countdown = useCountdownTime(60)
 
 async function handleSubmit() {
   if (!form.username || !form.password || !form.confirmPassword || !form.phone || !form.code) {

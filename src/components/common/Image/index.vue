@@ -1,33 +1,11 @@
 <script setup lang="ts">
-const props = withDefaults(defineProps<{
-  height?: number | string
-  src?: string
-  alt?: string
-}>(), {
-  height: 'auto',
-  alt: '',
-})
+const props = defineProps<{
+  src: string | any
+}>()
 
-const height = computed(() => typeof props.height === 'string' ? props.height : `${props.height}px`)
+const formatedSrc = computed(() => typeof props.src !== 'string' || props.src.startsWith('data:') ? props.src : getCdnUrl(props.src))
 </script>
 
 <template>
-  <div class="image-wrapper" :style="{ height }">
-    <img
-      :src="src"
-      :alt="alt"
-      class="w-full h-full object-cover rounded"
-      @error="$emit('error')"
-      @load="$emit('load')"
-    >
-  </div>
+  <img :src="formatedSrc" v-bind="$attrs">
 </template>
-
-<style lang="scss">
-.image-wrapper {
-  position: relative;
-  width: 100%;
-  background-color: #f5f5f5;
-  object-fit: cover;
-}
-</style>

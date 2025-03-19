@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { InputHTMLAttributes } from 'vue'
 
-interface Props extends InputHTMLAttributes {
+interface Props extends /* @vue-ignore */ InputHTMLAttributes {
   modelValue: string | number
   size?: 'small' | 'medium' | 'large'
 }

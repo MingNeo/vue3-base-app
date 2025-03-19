@@ -6,17 +6,27 @@
 // biome-ignore lint: disable
 export {}
 declare global {
+  const ACCESS_TOKEN_SAVE_KEY: typeof import('./config/constants')['ACCESS_TOKEN_SAVE_KEY']
   const CURRENCY_AMOUNT_REGEX: typeof import('./utils/regexes')['CURRENCY_AMOUNT_REGEX']
+  const DEFAULT_LLMTYPE: typeof import('./config/constants')['DEFAULT_LLMTYPE']
+  const DISABLED_PERMISSSION: typeof import('./config/constants')['DISABLED_PERMISSSION']
+  const DoneState: typeof import('./utils/fetch-event-source')['DoneState']
   const EMAIL_REGEX: typeof import('./utils/regexes')['EMAIL_REGEX']
   const EffectScope: typeof import('vue')['EffectScope']
+  const FatalError: typeof import('./utils/fetch-event-source')['FatalError']
   const ID_CARD_REGEX: typeof import('./utils/regexes')['ID_CARD_REGEX']
   const LANDLINE_NUMBER_REGEX: typeof import('./utils/regexes')['LANDLINE_NUMBER_REGEX']
   const LANDLINE_PHONE_NUMBER_REGEX: typeof import('./utils/regexes')['LANDLINE_PHONE_NUMBER_REGEX']
+  const LoginError: typeof import('./utils/fetch-event-source')['LoginError']
+  const NoAuthError: typeof import('./utils/fetch-event-source')['NoAuthError']
   const PASSWORD_REGEX: typeof import('./utils/regexes')['PASSWORD_REGEX']
   const PHONE_NUMBER_REGEX: typeof import('./utils/regexes')['PHONE_NUMBER_REGEX']
   const POSTAL_CODE_REGEX: typeof import('./utils/regexes')['POSTAL_CODE_REGEX']
+  const REQUEST_ACCESS_TOKEN_KEY: typeof import('./config/constants')['REQUEST_ACCESS_TOKEN_KEY']
+  const RetriableError: typeof import('./utils/fetch-event-source')['RetriableError']
   const USERNAME_REGEX: typeof import('./utils/regexes')['USERNAME_REGEX']
   const accessToken: typeof import('./utils/accessToken')['default']
+  const accessTokenSaveBy: typeof import('./config/index')['accessTokenSaveBy']
   const arrayToObject: typeof import('./utils/index')['arrayToObject']
   const asyncComputed: typeof import('@vueuse/core')['asyncComputed']
   const autoResetRef: typeof import('@vueuse/core')['autoResetRef']
@@ -46,11 +56,15 @@ declare global {
   const eagerComputed: typeof import('@vueuse/core')['eagerComputed']
   const effectScope: typeof import('vue')['effectScope']
   const extendRef: typeof import('@vueuse/core')['extendRef']
+  const fetchEvent: typeof import('./utils/fetch-event-source')['fetchEvent']
+  const generateMenuByAuth: typeof import('./config/index')['generateMenuByAuth']
   const generateShowMenu: typeof import('./utils/menu')['generateShowMenu']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
+  const getLoginToken: typeof import('./utils/index')['getLoginToken']
   const h: typeof import('vue')['h']
   const ignorableWatch: typeof import('@vueuse/core')['ignorableWatch']
+  const imageEnums: typeof import('./config/index')['imageEnums']
   const inject: typeof import('vue')['inject']
   const injectLocal: typeof import('@vueuse/core')['injectLocal']
   const isDark: typeof import('./composables/dark')['isDark']
@@ -85,6 +99,7 @@ declare global {
   const onUnmounted: typeof import('vue')['onUnmounted']
   const onUpdated: typeof import('vue')['onUpdated']
   const onWatcherCleanup: typeof import('vue')['onWatcherCleanup']
+  const openRedirectLogin: typeof import('./config/index')['openRedirectLogin']
   const pausableWatch: typeof import('@vueuse/core')['pausableWatch']
   const preferredDark: typeof import('./composables/dark')['preferredDark']
   const provide: typeof import('vue')['provide']
@@ -102,10 +117,12 @@ declare global {
   const refDefault: typeof import('@vueuse/core')['refDefault']
   const refThrottled: typeof import('@vueuse/core')['refThrottled']
   const refWithControl: typeof import('@vueuse/core')['refWithControl']
+  const renderMarkdown: typeof import('./utils/markdown')['renderMarkdown']
   const request: typeof import('./utils/request')['default']
   const resolveComponent: typeof import('vue')['resolveComponent']
   const resolveRef: typeof import('@vueuse/core')['resolveRef']
   const resolveUnref: typeof import('@vueuse/core')['resolveUnref']
+  const saveLoginToken: typeof import('./config/index')['saveLoginToken']
   const shallowReactive: typeof import('vue')['shallowReactive']
   const shallowReadonly: typeof import('vue')['shallowReadonly']
   const shallowRef: typeof import('vue')['shallowRef']
@@ -159,6 +176,9 @@ declare global {
   const useBroadcastChannel: typeof import('@vueuse/core')['useBroadcastChannel']
   const useBrowserLocation: typeof import('@vueuse/core')['useBrowserLocation']
   const useCached: typeof import('@vueuse/core')['useCached']
+  const useChat: typeof import('./composables/useChat/index')['useChat']
+  const useChatStore: typeof import('./stores/chat')['useChatStore']
+  const useClickOutside: typeof import('./composables/useClickOutside')['useClickOutside']
   const useClipboard: typeof import('@vueuse/core')['useClipboard']
   const useClipboardItems: typeof import('@vueuse/core')['useClipboardItems']
   const useCloned: typeof import('@vueuse/core')['useCloned']
@@ -204,7 +224,7 @@ declare global {
   const useFullscreen: typeof import('@vueuse/core')['useFullscreen']
   const useGamepad: typeof import('@vueuse/core')['useGamepad']
   const useGeolocation: typeof import('@vueuse/core')['useGeolocation']
-  const useHead: typeof import('@vueuse/head')['useHead']
+  const useHead: typeof import('@unhead/vue')['useHead']
   const useI18n: typeof import('vue-i18n')['useI18n']
   const useId: typeof import('vue')['useId']
   const useIdle: typeof import('@vueuse/core')['useIdle']
@@ -267,7 +287,8 @@ declare global {
   const useScriptTag: typeof import('@vueuse/core')['useScriptTag']
   const useScroll: typeof import('@vueuse/core')['useScroll']
   const useScrollLock: typeof import('@vueuse/core')['useScrollLock']
-  const useSeoMeta: typeof import('@vueuse/head')['useSeoMeta']
+  const useScrollToBottom: typeof import('./composables/useScrollToBottom/index')['useScrollToBottom']
+  const useSeoMeta: typeof import('@unhead/vue')['useSeoMeta']
   const useSessionStorage: typeof import('@vueuse/core')['useSessionStorage']
   const useShare: typeof import('@vueuse/core')['useShare']
   const useShowMenu: typeof import('./composables/useShowMenu')['useShowMenu']
@@ -280,6 +301,8 @@ declare global {
   const useSteps: typeof import('./composables/useSteps/index')['default']
   const useStorage: typeof import('@vueuse/core')['useStorage']
   const useStorageAsync: typeof import('@vueuse/core')['useStorageAsync']
+  const useStreamData: typeof import('./composables/useStreamData/index')['useStreamData']
+  const useStreamScrollToBottom: typeof import('./composables/useStreamScrollToBottom')['useStreamScrollToBottom']
   const useStyleTag: typeof import('@vueuse/core')['useStyleTag']
   const useSupported: typeof import('@vueuse/core')['useSupported']
   const useSwipe: typeof import('@vueuse/core')['useSwipe']
@@ -302,6 +325,7 @@ declare global {
   const useToString: typeof import('@vueuse/core')['useToString']
   const useToggle: typeof import('@vueuse/core')['useToggle']
   const useTransition: typeof import('@vueuse/core')['useTransition']
+  const useTypingText: typeof import('./composables/useTypingText/index')['useTypingText']
   const useUrlSearchParams: typeof import('@vueuse/core')['useUrlSearchParams']
   const useUserMedia: typeof import('@vueuse/core')['useUserMedia']
   const useUserStore: typeof import('./stores/user')['useUserStore']
@@ -334,6 +358,7 @@ declare global {
   const watchTriggerable: typeof import('@vueuse/core')['watchTriggerable']
   const watchWithFilter: typeof import('@vueuse/core')['watchWithFilter']
   const whenever: typeof import('@vueuse/core')['whenever']
+  const whiteList: typeof import('./config/permission')['whiteList']
 }
 // for type re-export
 declare global {
@@ -347,6 +372,9 @@ declare global {
   export type { UseRequestReturn, UseRequestOptions } from './composables/useRequest/index'
   import('./composables/useRequest/index')
   // @ts-ignore
+  export type { RetriableError, NoAuthError, LoginError, FatalError, DoneState, FetchEventOption } from './utils/fetch-event-source'
+  import('./utils/fetch-event-source')
+  // @ts-ignore
   export type { MenuItem } from './utils/menu'
   import('./utils/menu')
 }
@@ -356,17 +384,27 @@ import { UnwrapRef } from 'vue'
 declare module 'vue' {
   interface GlobalComponents {}
   interface ComponentCustomProperties {
+    readonly ACCESS_TOKEN_SAVE_KEY: UnwrapRef<typeof import('./config/constants')['ACCESS_TOKEN_SAVE_KEY']>
     readonly CURRENCY_AMOUNT_REGEX: UnwrapRef<typeof import('./utils/regexes')['CURRENCY_AMOUNT_REGEX']>
+    readonly DEFAULT_LLMTYPE: UnwrapRef<typeof import('./config/constants')['DEFAULT_LLMTYPE']>
+    readonly DISABLED_PERMISSSION: UnwrapRef<typeof import('./config/constants')['DISABLED_PERMISSSION']>
+    readonly DoneState: UnwrapRef<typeof import('./utils/fetch-event-source')['DoneState']>
     readonly EMAIL_REGEX: UnwrapRef<typeof import('./utils/regexes')['EMAIL_REGEX']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly FatalError: UnwrapRef<typeof import('./utils/fetch-event-source')['FatalError']>
     readonly ID_CARD_REGEX: UnwrapRef<typeof import('./utils/regexes')['ID_CARD_REGEX']>
     readonly LANDLINE_NUMBER_REGEX: UnwrapRef<typeof import('./utils/regexes')['LANDLINE_NUMBER_REGEX']>
     readonly LANDLINE_PHONE_NUMBER_REGEX: UnwrapRef<typeof import('./utils/regexes')['LANDLINE_PHONE_NUMBER_REGEX']>
+    readonly LoginError: UnwrapRef<typeof import('./utils/fetch-event-source')['LoginError']>
+    readonly NoAuthError: UnwrapRef<typeof import('./utils/fetch-event-source')['NoAuthError']>
     readonly PASSWORD_REGEX: UnwrapRef<typeof import('./utils/regexes')['PASSWORD_REGEX']>
     readonly PHONE_NUMBER_REGEX: UnwrapRef<typeof import('./utils/regexes')['PHONE_NUMBER_REGEX']>
     readonly POSTAL_CODE_REGEX: UnwrapRef<typeof import('./utils/regexes')['POSTAL_CODE_REGEX']>
+    readonly REQUEST_ACCESS_TOKEN_KEY: UnwrapRef<typeof import('./config/constants')['REQUEST_ACCESS_TOKEN_KEY']>
+    readonly RetriableError: UnwrapRef<typeof import('./utils/fetch-event-source')['RetriableError']>
     readonly USERNAME_REGEX: UnwrapRef<typeof import('./utils/regexes')['USERNAME_REGEX']>
     readonly accessToken: UnwrapRef<typeof import('./utils/accessToken')['default']>
+    readonly accessTokenSaveBy: UnwrapRef<typeof import('./config/index')['accessTokenSaveBy']>
     readonly arrayToObject: UnwrapRef<typeof import('./utils/index')['arrayToObject']>
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
     readonly autoResetRef: UnwrapRef<typeof import('@vueuse/core')['autoResetRef']>
@@ -396,11 +434,15 @@ declare module 'vue' {
     readonly eagerComputed: UnwrapRef<typeof import('@vueuse/core')['eagerComputed']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
+    readonly fetchEvent: UnwrapRef<typeof import('./utils/fetch-event-source')['fetchEvent']>
+    readonly generateMenuByAuth: UnwrapRef<typeof import('./config/index')['generateMenuByAuth']>
     readonly generateShowMenu: UnwrapRef<typeof import('./utils/menu')['generateShowMenu']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
+    readonly getLoginToken: UnwrapRef<typeof import('./utils/index')['getLoginToken']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
+    readonly imageEnums: UnwrapRef<typeof import('./config/index')['imageEnums']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly injectLocal: UnwrapRef<typeof import('@vueuse/core')['injectLocal']>
     readonly isDefined: UnwrapRef<typeof import('@vueuse/core')['isDefined']>
@@ -434,6 +476,7 @@ declare module 'vue' {
     readonly onUnmounted: UnwrapRef<typeof import('vue')['onUnmounted']>
     readonly onUpdated: UnwrapRef<typeof import('vue')['onUpdated']>
     readonly onWatcherCleanup: UnwrapRef<typeof import('vue')['onWatcherCleanup']>
+    readonly openRedirectLogin: UnwrapRef<typeof import('./config/index')['openRedirectLogin']>
     readonly pausableWatch: UnwrapRef<typeof import('@vueuse/core')['pausableWatch']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
     readonly provideLocal: UnwrapRef<typeof import('@vueuse/core')['provideLocal']>
@@ -450,10 +493,12 @@ declare module 'vue' {
     readonly refDefault: UnwrapRef<typeof import('@vueuse/core')['refDefault']>
     readonly refThrottled: UnwrapRef<typeof import('@vueuse/core')['refThrottled']>
     readonly refWithControl: UnwrapRef<typeof import('@vueuse/core')['refWithControl']>
+    readonly renderMarkdown: UnwrapRef<typeof import('./utils/markdown')['renderMarkdown']>
     readonly request: UnwrapRef<typeof import('./utils/request')['default']>
     readonly resolveComponent: UnwrapRef<typeof import('vue')['resolveComponent']>
     readonly resolveRef: UnwrapRef<typeof import('@vueuse/core')['resolveRef']>
     readonly resolveUnref: UnwrapRef<typeof import('@vueuse/core')['resolveUnref']>
+    readonly saveLoginToken: UnwrapRef<typeof import('./config/index')['saveLoginToken']>
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>
     readonly shallowReadonly: UnwrapRef<typeof import('vue')['shallowReadonly']>
     readonly shallowRef: UnwrapRef<typeof import('vue')['shallowRef']>
@@ -504,6 +549,9 @@ declare module 'vue' {
     readonly useBroadcastChannel: UnwrapRef<typeof import('@vueuse/core')['useBroadcastChannel']>
     readonly useBrowserLocation: UnwrapRef<typeof import('@vueuse/core')['useBrowserLocation']>
     readonly useCached: UnwrapRef<typeof import('@vueuse/core')['useCached']>
+    readonly useChat: UnwrapRef<typeof import('./composables/useChat/index')['useChat']>
+    readonly useChatStore: UnwrapRef<typeof import('./stores/chat')['useChatStore']>
+    readonly useClickOutside: UnwrapRef<typeof import('./composables/useClickOutside')['useClickOutside']>
     readonly useClipboard: UnwrapRef<typeof import('@vueuse/core')['useClipboard']>
     readonly useClipboardItems: UnwrapRef<typeof import('@vueuse/core')['useClipboardItems']>
     readonly useCloned: UnwrapRef<typeof import('@vueuse/core')['useCloned']>
@@ -549,7 +597,6 @@ declare module 'vue' {
     readonly useFullscreen: UnwrapRef<typeof import('@vueuse/core')['useFullscreen']>
     readonly useGamepad: UnwrapRef<typeof import('@vueuse/core')['useGamepad']>
     readonly useGeolocation: UnwrapRef<typeof import('@vueuse/core')['useGeolocation']>
-    readonly useHead: UnwrapRef<typeof import('@vueuse/head')['useHead']>
     readonly useI18n: UnwrapRef<typeof import('vue-i18n')['useI18n']>
     readonly useId: UnwrapRef<typeof import('vue')['useId']>
     readonly useIdle: UnwrapRef<typeof import('@vueuse/core')['useIdle']>
@@ -611,7 +658,7 @@ declare module 'vue' {
     readonly useScriptTag: UnwrapRef<typeof import('@vueuse/core')['useScriptTag']>
     readonly useScroll: UnwrapRef<typeof import('@vueuse/core')['useScroll']>
     readonly useScrollLock: UnwrapRef<typeof import('@vueuse/core')['useScrollLock']>
-    readonly useSeoMeta: UnwrapRef<typeof import('@vueuse/head')['useSeoMeta']>
+    readonly useScrollToBottom: UnwrapRef<typeof import('./composables/useScrollToBottom/index')['useScrollToBottom']>
     readonly useSessionStorage: UnwrapRef<typeof import('@vueuse/core')['useSessionStorage']>
     readonly useShare: UnwrapRef<typeof import('@vueuse/core')['useShare']>
     readonly useShowMenu: UnwrapRef<typeof import('./composables/useShowMenu')['useShowMenu']>
@@ -623,6 +670,8 @@ declare module 'vue' {
     readonly useStepper: UnwrapRef<typeof import('@vueuse/core')['useStepper']>
     readonly useStorage: UnwrapRef<typeof import('@vueuse/core')['useStorage']>
     readonly useStorageAsync: UnwrapRef<typeof import('@vueuse/core')['useStorageAsync']>
+    readonly useStreamData: UnwrapRef<typeof import('./composables/useStreamData/index')['useStreamData']>
+    readonly useStreamScrollToBottom: UnwrapRef<typeof import('./composables/useStreamScrollToBottom')['useStreamScrollToBottom']>
     readonly useStyleTag: UnwrapRef<typeof import('@vueuse/core')['useStyleTag']>
     readonly useSupported: UnwrapRef<typeof import('@vueuse/core')['useSupported']>
     readonly useSwipe: UnwrapRef<typeof import('@vueuse/core')['useSwipe']>
@@ -644,6 +693,7 @@ declare module 'vue' {
     readonly useToString: UnwrapRef<typeof import('@vueuse/core')['useToString']>
     readonly useToggle: UnwrapRef<typeof import('@vueuse/core')['useToggle']>
     readonly useTransition: UnwrapRef<typeof import('@vueuse/core')['useTransition']>
+    readonly useTypingText: UnwrapRef<typeof import('./composables/useTypingText/index')['useTypingText']>
     readonly useUrlSearchParams: UnwrapRef<typeof import('@vueuse/core')['useUrlSearchParams']>
     readonly useUserMedia: UnwrapRef<typeof import('@vueuse/core')['useUserMedia']>
     readonly useUserStore: UnwrapRef<typeof import('./stores/user')['useUserStore']>
@@ -676,5 +726,6 @@ declare module 'vue' {
     readonly watchTriggerable: UnwrapRef<typeof import('@vueuse/core')['watchTriggerable']>
     readonly watchWithFilter: UnwrapRef<typeof import('@vueuse/core')['watchWithFilter']>
     readonly whenever: UnwrapRef<typeof import('@vueuse/core')['whenever']>
+    readonly whiteList: UnwrapRef<typeof import('./config/permission')['whiteList']>
   }
 }

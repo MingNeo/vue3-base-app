@@ -28,11 +28,15 @@ function IconResolver(): ComponentResolver {
   }
 }
 
+const ENABLE_CDN = false
+const CDN_PATH = ''
+
 export default defineConfig(({ command }) => ({
   base: './',
   resolve: {
     alias: {
       '@/': `${path.resolve(__dirname, 'src')}/`,
+      '@/assets/': command === 'serve' || !ENABLE_CDN ? `${path.resolve(__dirname, 'src/assets')}/` : `${CDN_PATH}/assets/`,
     },
   },
 

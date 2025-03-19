@@ -27,7 +27,7 @@ export const useUserStore = defineStore('user', () => {
   }
 
   // 获取用户信息
-  const getInfo = debounce(async () => {
+  const getInfo = useThrottleFn(async () => {
     const permissionStore = usePermissionStore()
     try {
       // 请求后端获取用户信息
@@ -48,7 +48,7 @@ export const useUserStore = defineStore('user', () => {
     catch (error) {
       return Promise.reject(error)
     }
-  }, 500, { leading: true, trailing: false })
+  }, 500, false, true)
 
   const clearLogin = () => {
     token.value = ''

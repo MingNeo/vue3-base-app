@@ -1,6 +1,6 @@
 import { ref, watch } from 'vue'
 
-export default function useCountdown(time: number, callback?: () => void) {
+export default function useCountdownTime(time: number, callback?: () => void) {
   const current = ref(time)
   const isCounting = ref(false)
 

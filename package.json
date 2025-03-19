@@ -6,6 +6,7 @@
     "dev": "vite --port 3333 --open",
     "build:test": "vite build --mode test",
     "build:staging": "vite build --mode staging",
+    "build:prod": "vite build --mode prod",
     "build": "vite build",
     "build:ssg": "vite-ssg build",
     "lint": "eslint .",
